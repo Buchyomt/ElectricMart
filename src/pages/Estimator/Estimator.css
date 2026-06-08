@@ -1,0 +1,331 @@
+.estimator-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Hero Section */
+.estimator-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  padding: 80px 0;
+  margin-bottom: 40px;
+}
+
+.estimator-hero-content {
+  max-width: 800px;
+}
+
+.tool-badge {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.estimator-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.estimator-hero p {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Step Headers */
+.estimator-step-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  margin-top: 40px;
+}
+
+.step-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #3b82f6;
+  opacity: 0.3;
+  font-family: monospace;
+}
+
+.estimator-step-header h2 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Template Cards */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.template-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.template-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.template-card.active {
+  border-color: #3b82f6;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.template-icon {
+  width: 50px;
+  height: 50px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  margin-bottom: 20px;
+}
+
+.template-card.active .template-icon {
+  background: #3b82f6;
+  color: white;
+}
+
+.template-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #1e293b;
+}
+
+.template-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.template-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.load-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: uppercase;
+}
+
+.btn-select {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* Results Section */
+.results-card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.project-info-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.text-success { color: #10b981; }
+
+.results-header h3 {
+  font-size: 1.4rem;
+  color: #1e293b;
+}
+
+.results-header p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+/* Table Styling */
+.estimator-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.estimator-table th {
+  text-align: left;
+  padding: 15px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.estimator-table td {
+  padding: 20px 15px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.qty-badge {
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.status-in-stock {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: #d1fae5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.status-request {
+  color: #f59e0b;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: #fef3c7;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.total-cell {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.estimator-disclaimer {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  background: #fffbeb;
+  border-radius: 12px;
+  border-left: 4px solid #f59e0b;
+}
+
+.estimator-disclaimer p {
+  font-size: 0.85rem;
+  color: #b45309;
+  line-height: 1.5;
+}
+
+/* Next Steps */
+.estimator-next-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding: 0 40px;
+}
+
+.step-box {
+  text-align: center;
+  flex: 1;
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  margin: 0 auto 15px;
+}
+
+.btn-like {
+  cursor: pointer;
+  background: #0f172a;
+}
+
+.step-box h4 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.step-box p {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.step-icon-divider {
+  color: #cbd5e1;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+  .template-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .template-grid {
+    grid-template-columns: 1fr;
+  }
+  .estimator-next-steps {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .step-icon-divider {
+    transform: rotate(90deg);
+    margin: 10px 0;
+  }
+}

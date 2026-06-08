@@ -1,0 +1,147 @@
+.floating-compare-bar {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 0.75rem 1.5rem;
+  z-index: 9998;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.compare-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.compare-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.compare-icon-box {
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.compare-text h4 {
+  color: white;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.compare-text p {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.compare-items-list {
+  display: flex;
+  gap: 0.75rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.compare-item-pill {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.compare-item-pill img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.remove-item-pill {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.compare-item-placeholder {
+  width: 48px;
+  height: 48px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+}
+
+.compare-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-clear-compare {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-clear-compare:hover {
+  color: #ef4444;
+}
+
+.btn-launch-compare {
+  padding: 0.6rem 1.5rem;
+  font-size: 0.9rem;
+  border-radius: 50px;
+}
+
+.btn-launch-compare:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
+  cursor: not-allowed;
+}
+
+@keyframes slideUp {
+  from { transform: translate(-50%, 100%); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (max-width: 768px) {
+  .compare-text { display: none; }
+  .compare-container { gap: 1rem; }
+  .floating-compare-bar { width: 95%; padding: 0.5rem 1rem; }
+}
