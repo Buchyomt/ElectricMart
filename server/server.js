@@ -124,26 +124,17 @@ mongoose
   })
   .then(() => {
     console.log("✅ Connected to MongoDB Atlas");
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
-    });
   })
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err?.message || err);
-    if (err?.name) console.error("   name:", err.name);
-    if (err?.code) console.error("   code:", err.code);
-    if (err?.cause?.code) console.error("   cause.code:", err.cause.code);
-    const msg = String(err?.message || "");
-    if (/whitelist|IP that isn't/i.test(msg)) {
-      console.error(
-        "\n📋 Fix: MongoDB Atlas → Network Access → Add IP Address.",
-      );
-      console.error(
-        "   Use your current public IP, or 0.0.0.0/0 for local dev only.",
-      );
-      console.error(
-        "   https://www.mongodb.com/docs/atlas/security/ip-access-list/\n",
-      );
-    }
-    process.exit(1);
   });
+
+// Only listen locally, Vercel handles the serverless execution
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
