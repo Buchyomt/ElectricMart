@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require('../models/Order');
 const User = require('../models/User');
 const Product = require('../models/Product');
+const StoreSettings = require('../models/StoreSettings');
 const { protect, admin } = require('../middleware/authMiddleware');
 const { generateWaybillPDF } = require('../utils/pdfService');
 
@@ -14,6 +15,31 @@ router.get('/orders', async (req, res) => {
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// @route   GET /api/admin/orders/export
+// @desc    Export all orders to CSV (Admin only)
+router.get('/orders/export', async (req, res) => {
+  try {
+    const orders = await Order.find({}).sort({ createdAt: -1 }).populate('userId', 'name email');
+    
+    // Simple CSV builder
+    const headers = 'Order ID,Customer Name,Customer Email,Phone,Items Count,Total Amount,Payment Status,Order Status,Date\n';
+    const rows = orders.map(order => {
+      const name = `"${order.shippingAddress?.fullName || 'Unknown'}"`;
+      const email = `"${order.userId?.email || order.shippingAddress?.email || 'Unknown'}"`;
+      const phone = `"${order.shippingAddress?.phone || 'Unknown'}"`;
+      const date = `"${new Date(order.createdAt).toLocaleDateString()}"`;
+      const total = order.total || 0;
+      return `${order._id},${name},${email},${phone},${order.items.length},${total},${order.paymentStatus},${order.orderStatus},${date}`;
+    }).join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="orders_export.csv"');
+    res.status(200).send(headers + rows);
+  } catch (err) {
+    res.status(500).json({ message: 'Error exporting orders', error: err.message });
   }
 });
 
@@ -266,6 +292,38 @@ router.get('/seed-products', async (req, res) => {
     `);
   } catch (err) {
     res.status(500).json({ message: 'Seeding failed: ' + err.message });
+  }
+});
+// GET /api/admin/settings - Get store preferences
+router.get('/settings', async (req, res) => {
+  try {
+    let settings = await StoreSettings.findOne();
+    if (!settings) {
+      settings = await StoreSettings.create({});
+    }
+    res.json(settings);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching settings' });
+  }
+});
+
+// PATCH /api/admin/settings - Update store preferences
+router.patch('/settings', async (req, res) => {
+  try {
+    let settings = await StoreSettings.findOne();
+    if (!settings) {
+      settings = await StoreSettings.create({});
+    }
+    
+    if (req.body.maintenanceMode !== undefined) settings.maintenanceMode = req.body.maintenanceMode;
+    if (req.body.lowStockAlerts !== undefined) settings.lowStockAlerts = req.body.lowStockAlerts;
+    if (req.body.orderNotifications !== undefined) settings.orderNotifications = req.body.orderNotifications;
+    if (req.body.autoApproveContractors !== undefined) settings.autoApproveContractors = req.body.autoApproveContractors;
+    
+    await settings.save();
+    res.json(settings);
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating settings' });
   }
 });
 

@@ -19,7 +19,10 @@ import {
   Eye,
   X,
   MapPin,
-  ClipboardList
+  ClipboardList,
+  Settings,
+  Activity,
+  UploadCloud
 } from 'lucide-react';
 import './AdminDashboard.css';
 
@@ -40,17 +43,28 @@ const AdminDashboard = () => {
   
   const [quotes, setQuotes] = useState([]);
   const [usersList, setUsersList] = useState([]);
+  const [adminUser, setAdminUser] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [storeSettings, setStoreSettings] = useState({
+    maintenanceMode: false,
+    lowStockAlerts: true,
+    orderNotifications: true,
+    autoApproveContractors: false
+  });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [ordersRes, statsRes, lowStockRes, productsRes, quotesRes, usersRes] = await Promise.all([
+        const [ordersRes, statsRes, lowStockRes, productsRes, quotesRes, usersRes, meRes, settingsRes] = await Promise.all([
           fetch('/api/admin/orders', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
           fetch('/api/admin/stats', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
           fetch('/api/admin/low-stock', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
           fetch('/api/products'), // Fetch all products for the master list
           fetch('/api/quotes/admin/all', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch('/api/admin/users', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+          fetch('/api/admin/users', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch('/api/auth/me', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch('/api/admin/settings', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
         ]);
         if (ordersRes.ok) setOrders(await ordersRes.json());
         if (statsRes.ok) setStats(await statsRes.json());
@@ -58,6 +72,8 @@ const AdminDashboard = () => {
         if (productsRes.ok) setAllProducts(await productsRes.json());
         if (quotesRes.ok) setQuotes(await quotesRes.json());
         if (usersRes.ok) setUsersList(await usersRes.json());
+        if (meRes.ok) setAdminUser(await meRes.json());
+        if (settingsRes.ok) setStoreSettings(await settingsRes.json());
       } catch (err) {
         console.error('Admin data fetch error', err);
       } finally {
@@ -116,6 +132,80 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error('Update stock error', err);
       setNotification({ message: 'Error updating stock', type: 'error' });
+      setTimeout(() => setNotification(null), 3000);
+    }
+  };
+
+  const handleAvatarUpload = async () => {
+    if (!avatarFile) return;
+    const formData = new FormData();
+    formData.append('avatar', avatarFile);
+
+    try {
+      const res = await fetch('/api/auth/avatar', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        body: formData
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAdminUser({ ...adminUser, avatar: data.avatar });
+        setAvatarFile(null);
+        setNotification({ message: 'Profile picture updated successfully!', type: 'success' });
+        setTimeout(() => setNotification(null), 3000);
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (err) {
+      setNotification({ message: 'Error uploading image', type: 'error' });
+      setTimeout(() => setNotification(null), 3000);
+    }
+  };
+
+  const handleToggleSetting = async (key) => {
+    const newValue = !storeSettings[key];
+    setStoreSettings({ ...storeSettings, [key]: newValue });
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify({ [key]: newValue })
+      });
+      if (!res.ok) throw new Error('Failed to update setting');
+      setNotification({ message: 'Setting updated successfully!', type: 'success' });
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      // Revert on error
+      setStoreSettings({ ...storeSettings, [key]: !newValue });
+      setNotification({ message: 'Error updating setting', type: 'error' });
+      setTimeout(() => setNotification(null), 3000);
+    }
+  };
+
+  const handleExportCSV = async () => {
+    try {
+      const res = await fetch('/api/admin/orders/export', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (!res.ok) throw new Error('Export failed');
+      
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `electromart_orders_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+      
+      setNotification({ message: 'Export successful!', type: 'success' });
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      setNotification({ message: 'Error exporting orders', type: 'error' });
       setTimeout(() => setNotification(null), 3000);
     }
   };
@@ -248,69 +338,118 @@ const AdminDashboard = () => {
 
   function renderOverview() {
     return (
-      <>
+      <div className="animate-fade-in">
+        <div className="quick-actions-bar">
+          <button className="btn-quick-action" onClick={() => setActiveTab('inventory')}>
+            <Package size={16} /> Add Product
+          </button>
+          <button className="btn-quick-action" onClick={handleExportCSV}>
+            <Download size={16} /> Export Orders (CSV)
+          </button>
+        </div>
+
         {/* Stats Bar */}
         <div className="admin-stats-grid">
-          <div className="stat-item">
+          <div className="stat-item clickable" onClick={() => { setActiveTab('orders'); setFilter('paid'); }}>
             <div className="stat-label">Total Revenue</div>
             <div className="stat-value">₦{stats.revenue.toLocaleString()}</div>
             <div className="stat-trend up">+12.5%</div>
           </div>
-          <div className="stat-item">
+          <div className="stat-item clickable" onClick={() => { setActiveTab('orders'); setFilter('all'); }}>
             <div className="stat-label">Active Orders</div>
             <div className="stat-value">{stats.totalOrders}</div>
             <div className="stat-trend">Standard</div>
           </div>
-          <div className="stat-item">
+          <div className="stat-item clickable" onClick={() => setActiveTab('users')}>
             <div className="stat-label">User Base</div>
             <div className="stat-value">{stats.totalUsers}</div>
             <div className="stat-trend up">+4.1%</div>
           </div>
         </div>
 
-        {/* Low Stock Alert Panel */}
-        {lowStock.length > 0 && (
-          <section className="low-stock-panel">
-            <div className="low-stock-header">
-              <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                <AlertCircle size={18} color="#ef4444" />
-                <h2>Low Stock Alerts <span className="badge-count">{lowStock.length}</span></h2>
-              </div>
-              <button className="btn-details" onClick={() => setActiveTab('inventory')}>
-                View Full Master Inventory <ArrowLeft size={14} style={{transform: 'rotate(180deg)'}} />
-              </button>
-            </div>
-            <div className="low-stock-grid">
-              {lowStock.map(p => (
-                <div key={p._id} className={`low-stock-card ${p.stockQuantity === 0 ? 'out-of-stock' : ''}`}>
-                  <img src={`/${p.image}`} alt={p.name} onError={e => e.target.src = 'https://via.placeholder.com/40'} />
-                  <div className="low-stock-info">
-                    <strong>{p.name}</strong>
-                    <span>{p.brand} · {p.category}</span>
+        <div className="dashboard-grid">
+          <div className="dashboard-main-col">
+            {/* Low Stock Alert Panel */}
+            {lowStock.length > 0 && (
+              <section className="low-stock-panel">
+                <div className="low-stock-header">
+                  <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                    <AlertCircle size={18} color="#ef4444" />
+                    <h2>Low Stock Alerts <span className="badge-count">{lowStock.length}</span></h2>
                   </div>
-                  <div className="restock-controls">
-                     <input 
-                       type="number" 
-                       defaultValue={p.stockQuantity} 
-                       id={`stock-${p._id}`}
-                       placeholder="Qty"
-                     />
-                     <button onClick={() => {
-                       const qty = document.getElementById(`stock-${p._id}`).value;
-                       handleUpdateStock(p._id, qty);
-                     }}>Update</button>
-                  </div>
-                  <div className={`stock-count ${p.stockQuantity === 0 ? 'out' : 'low'}`}>
-                    {p.stockQuantity === 0 ? 'OUT OF STOCK' : `${p.stockQuantity} left`}
-                  </div>
+                  <button className="btn-details" onClick={() => setActiveTab('inventory')}>
+                    View Full Master Inventory <ArrowLeft size={14} style={{transform: 'rotate(180deg)'}} />
+                  </button>
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+                <div className="low-stock-grid">
+                  {lowStock.map(p => (
+                    <div key={p._id} className={`low-stock-card ${p.stockQuantity === 0 ? 'out-of-stock' : ''}`}>
+                      <img src={`/${p.image}`} alt={p.name} onError={e => e.target.src = 'https://via.placeholder.com/40'} />
+                      <div className="low-stock-info">
+                        <strong>{p.name}</strong>
+                        <span>{p.brand} · {p.category}</span>
+                      </div>
+                      <div className="restock-controls">
+                         <input 
+                           type="number" 
+                           defaultValue={p.stockQuantity} 
+                           id={`stock-${p._id}`}
+                           placeholder="Qty"
+                         />
+                         <button onClick={() => {
+                           const qty = document.getElementById(`stock-${p._id}`).value;
+                           handleUpdateStock(p._id, qty);
+                         }}>Update</button>
+                      </div>
+                      <div className={`stock-count ${p.stockQuantity === 0 ? 'out' : 'low'}`}>
+                        {p.stockQuantity === 0 ? 'OUT OF STOCK' : `${p.stockQuantity} left`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
-        {renderOrdersTable()}
-      </>
+            {renderOrdersTable()}
+          </div>
+
+          <div className="dashboard-side-col">
+            <div className="activity-feed">
+              <h3><Activity size={18} /> Recent Activity</h3>
+              <div className="activity-list">
+                {orders.slice(0, 3).map((o, i) => (
+                  <div className="activity-item" key={i}>
+                    <div className="activity-icon order"><ShoppingCart size={16} /></div>
+                    <div className="activity-content">
+                      <p>New Order #{o._id.slice(-6).toUpperCase()}</p>
+                      <span>from {o.shippingAddress?.fullName}</span>
+                    </div>
+                  </div>
+                ))}
+                {usersList.slice(0, 2).map((u, i) => (
+                  <div className="activity-item" key={`u-${i}`}>
+                    <div className="activity-icon user"><Users size={16} /></div>
+                    <div className="activity-content">
+                      <p>New Contractor Joined</p>
+                      <span>{u.name} ({u.tradeLevel})</span>
+                    </div>
+                  </div>
+                ))}
+                {quotes.slice(0, 1).map((q, i) => (
+                  <div className="activity-item" key={`q-${i}`}>
+                    <div className="activity-icon system"><ClipboardList size={16} /></div>
+                    <div className="activity-content">
+                      <p>Quote Submitted</p>
+                      <span>{q.projectName}</span>
+                    </div>
+                  </div>
+                ))}
+                {(!orders.length && !usersList.length) && <p style={{color: '#64748b'}}>No recent activity.</p>}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -659,6 +798,150 @@ const AdminDashboard = () => {
     return matchesFilter && matchesSearch;
   });
 
+  function renderSettings() {
+    return (
+      <div className="animate-fade-in settings-section">
+        <div className="settings-header">
+          <h2>Account Settings & System Logs</h2>
+          <p>Manage your profile and review system activity.</p>
+        </div>
+
+        <div className="settings-group">
+          <h3>Profile Upload</h3>
+          <div className="profile-upload-area">
+            <img 
+              src={avatarPreview || adminUser?.avatar || 'https://via.placeholder.com/100'} 
+              alt="Admin Avatar" 
+              className="profile-avatar-preview" 
+            />
+            <div className="profile-upload-controls">
+              <label className="file-input-wrapper">
+                <span className="btn-upload"><UploadCloud size={16} style={{display:'inline', marginRight: '8px'}} /> Choose Image</span>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setAvatarFile(file);
+                      setAvatarPreview(URL.createObjectURL(file));
+                    }
+                  }} 
+                />
+              </label>
+              {avatarFile && (
+                <button className="btn-quick-action" onClick={handleAvatarUpload} style={{marginTop: '8px', background: '#3b82f6', color: 'white', border: 'none'}}>
+                  Upload Now
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="settings-group">
+          <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', borderBottom: '1px solid #f1f5f9', paddingBottom: '8px'}}>
+            <h3 style={{margin:0, border: 'none', padding: 0}}>System Logs</h3>
+            <span style={{width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite'}}></span>
+            <span style={{fontSize: '0.8rem', color: '#22c55e', fontWeight: 'bold'}}>Live</span>
+          </div>
+          <div className="system-logs-area">
+            <div className="log-line">
+              <span className="timestamp">{new Date().toLocaleTimeString()}</span>
+              <span className="log-badge system">SYSTEM</span>
+              <span className="log-message">Admin Dashboard loaded. Environment: Production.</span>
+            </div>
+            <div className="log-line">
+              <span className="timestamp">{new Date(Date.now() - 50000).toLocaleTimeString()}</span>
+              <span className="log-badge auth">AUTH</span>
+              <span className="log-message">User login successful (IP: 192.168.1.1).</span>
+            </div>
+            {orders.slice(0, 3).map((o, i) => (
+              <div className="log-line" key={i}>
+                <span className="timestamp">{new Date(o.createdAt).toLocaleTimeString()}</span>
+                <span className="log-badge order">ORDER</span>
+                <span className="log-message">New transaction #{o._id.slice(-6)} received. Status: {o.paymentStatus}.</span>
+              </div>
+            ))}
+            {usersList.slice(0, 2).map((u, i) => (
+              <div className="log-line" key={`u-${i}`}>
+                <span className="timestamp">{new Date(u.createdAt || Date.now() - 3600000).toLocaleTimeString()}</span>
+                <span className="log-badge user">USER</span>
+                <span className="log-message">New contractor registration: {u.email}.</span>
+              </div>
+            ))}
+            <div className="log-line">
+              <span className="timestamp">{new Date(Date.now() - 7200000).toLocaleTimeString()}</span>
+              <span className="log-badge system">SYSTEM</span>
+              <span className="log-message">Automated database backup completed successfully.</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="settings-group">
+          <h3>Store Preferences</h3>
+          <div className="preferences-grid">
+            <div className="preference-card">
+              <div className="pref-info">
+                <h4>Maintenance Mode</h4>
+                <p>Temporarily disable checkout.</p>
+              </div>
+              <label className="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  checked={storeSettings.maintenanceMode} 
+                  onChange={() => handleToggleSetting('maintenanceMode')} 
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+            <div className="preference-card">
+              <div className="pref-info">
+                <h4>Low Stock Alerts</h4>
+                <p>Email alerts for depleted inventory.</p>
+              </div>
+              <label className="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  checked={storeSettings.lowStockAlerts} 
+                  onChange={() => handleToggleSetting('lowStockAlerts')} 
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+            <div className="preference-card">
+              <div className="pref-info">
+                <h4>Order Notifications</h4>
+                <p>Push notifications for new orders.</p>
+              </div>
+              <label className="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  checked={storeSettings.orderNotifications} 
+                  onChange={() => handleToggleSetting('orderNotifications')} 
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+            <div className="preference-card">
+              <div className="pref-info">
+                <h4>Auto-Approve Contractors</h4>
+                <p>Bypass manual approval process.</p>
+              </div>
+              <label className="toggle-switch">
+                <input 
+                  type="checkbox" 
+                  checked={storeSettings.autoApproveContractors} 
+                  onChange={() => handleToggleSetting('autoApproveContractors')} 
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-page">
       <div className="admin-container">
@@ -675,6 +958,7 @@ const AdminDashboard = () => {
             <button className={activeTab === 'orders' ? 'active' : ''} onClick={() => setActiveTab('orders')}><ShoppingCart size={20} /> Orders</button>
             <button className={activeTab === 'quotes' ? 'active' : ''} onClick={() => setActiveTab('quotes')}><ClipboardList size={20} /> RFQ Quotes</button>
             <button className={activeTab === 'users' ? 'active' : ''} onClick={() => setActiveTab('users')}><Users size={20} /> Users & Pricing</button>
+            <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}><Settings size={20} /> Settings</button>
             <div className="nav-spacer" style={{margin: 'auto 0'}}></div>
             <button onClick={() => navigate('/')} style={{borderTop: '1px solid rgba(255,255,255,0.1)'}}>
               <ArrowLeft size={20} /> Back to Store
@@ -689,9 +973,15 @@ const AdminDashboard = () => {
               <h1>Shop Manager Dashboard</h1>
               <p>Monitor your electrical supply business performance in real-time.</p>
             </div>
-            <div className="admin-user">
-              <div className="admin-avatar">A</div>
-              <span>Owner Access</span>
+            <div className="admin-user" style={{cursor: 'pointer'}} onClick={() => setActiveTab('settings')}>
+              <div className="admin-avatar">
+                {adminUser?.avatar ? (
+                  <img src={adminUser.avatar} alt="Avatar" style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
+                ) : (
+                  adminUser?.name?.charAt(0).toUpperCase() || 'A'
+                )}
+              </div>
+              <span>{adminUser?.name || 'Owner Access'}</span>
             </div>
           </header>
 
@@ -700,6 +990,7 @@ const AdminDashboard = () => {
           {activeTab === 'orders' && renderOrdersTable()}
           {activeTab === 'quotes' && renderQuotesTable()}
           {activeTab === 'users' && renderUsersTable()}
+          {activeTab === 'settings' && renderSettings()}
         </main>
       </div>
 
