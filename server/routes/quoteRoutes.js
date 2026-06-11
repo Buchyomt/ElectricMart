@@ -38,12 +38,20 @@ router.post('/', protect, async (req, res) => {
     const vat = subtotal * 0.075;
     const total = subtotal + deliveryFee + vat;
 
+    // Sanitize items: only keep productId if it's a valid MongoDB ObjectId hex string
+    // This prevents Cast errors from numeric IDs that come from local inventory data
+    const sanitizedItems = items.map(item => {
+      const { productId, ...rest } = item;
+      const isValidObjectId = typeof productId === 'string' && /^[a-f\d]{24}$/i.test(productId);
+      return isValidObjectId ? { productId, ...rest } : { ...rest };
+    });
+
     const quote = new Quote({
       user: req.user._id,
       projectName,
       location,
       notes,
-      items,
+      items: sanitizedItems,
       subtotal,
       deliveryFee,
       vat,

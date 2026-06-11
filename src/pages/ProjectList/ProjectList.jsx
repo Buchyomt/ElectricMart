@@ -192,14 +192,20 @@ const ProjectList = () => {
         projectName: projectDetails.name || 'Untitled Project',
         location: projectDetails.location,
         notes: 'Submitted from Site Quote Manager',
-        items: items.map(i => ({
-          productId: i._id || i.id,
-          name: i.name,
-          brand: i.brand,
-          image: i.image,
-          unitPrice: i.price,
-          quantity: i.quantity
-        }))
+        items: items.map(i => {
+          const rawId = i._id || i.id;
+          // Only send productId if it's a valid MongoDB ObjectId (24-char hex string)
+          // Products from local inventory.json have numeric IDs which Mongoose rejects
+          const isValidObjectId = typeof rawId === 'string' && /^[a-f\d]{24}$/i.test(rawId);
+          return {
+            productId: isValidObjectId ? rawId : null,
+            name: i.name,
+            brand: i.brand,
+            image: i.image,
+            unitPrice: i.price,
+            quantity: i.quantity,
+          };
+        })
       };
 
       const res = await fetch('/api/quotes', {
