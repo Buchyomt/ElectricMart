@@ -134,6 +134,26 @@ router.get('/:id', protect, async (req, res) => {
   }
 });
 
+// @route   PATCH /api/orders/:id/pay
+// @desc    Update order payment status to paid
+router.patch('/:id/pay', protect, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    
+    if (order.userId.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+
+    order.paymentStatus = 'paid';
+    
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // @route   GET /api/orders/track/:id
 // @desc    Public tracking endpoint (supports full ID or 6-char suffix)
 router.get('/track/:id', async (req, res) => {

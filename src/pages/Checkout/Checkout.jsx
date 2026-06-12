@@ -257,8 +257,22 @@ const Checkout = () => {
             { display_name: "Order ID", variable_name: "order_id", value: createdOrder._id }
           ]
         },
-        callback: (response) => {
+        callback: async (response) => {
           console.log('Payment Successful', response);
+          
+          try {
+            // Update backend payment status
+            await fetch(`/api/orders/${createdOrder._id}/pay`, {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ reference: response.reference })
+            });
+          } catch (err) {
+            console.error('Failed to update payment status on backend', err);
+          }
           
           setConfirmedOrder({
             orderId: 'EM-' + createdOrder._id.substring(createdOrder._id.length - 6).toUpperCase(),
