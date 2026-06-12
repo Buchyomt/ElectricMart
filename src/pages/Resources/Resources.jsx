@@ -16,6 +16,69 @@ const Resources = () => {
     setVoltageDrop({ ...voltageDrop, result: drop.toFixed(2) });
   };
 
+  const generateResourcePDF = (title, type = 'Document') => {
+    try {
+      const { jsPDF } = window.jspdf;
+      if (!jsPDF) {
+        showToast("PDF generator not loaded yet. Please try again.", "warning");
+        return;
+      }
+      
+      const doc = new jsPDF();
+      
+      // Branding
+      const primaryBlue = [37, 99, 235];
+      const darkSlate = [15, 23, 42];
+      
+      doc.setFillColor(248, 250, 252);
+      doc.rect(0, 0, 210, 45, 'F');
+      
+      doc.setFontSize(26);
+      doc.setTextColor(...primaryBlue);
+      doc.setFont("helvetica", "bold");
+      doc.text("ELECTROMART PRO HUB", 20, 25);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139);
+      doc.setFont("helvetica", "normal");
+      doc.text("Technical Resources & Engineering Library", 20, 35);
+      
+      // Document Title
+      doc.setFontSize(18);
+      doc.setTextColor(...darkSlate);
+      doc.setFont("helvetica", "bold");
+      doc.text(title.toUpperCase(), 20, 65);
+      
+      doc.setFontSize(11);
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Document Type: ${type} | Date: ${new Date().toLocaleDateString()}`, 20, 75);
+      
+      doc.setDrawColor(226, 232, 240);
+      doc.line(20, 80, 190, 80);
+      
+      // Placeholder content
+      doc.setFontSize(12);
+      doc.setTextColor(...darkSlate);
+      doc.setFont("helvetica", "normal");
+      
+      const content = `This document provides the latest information regarding ${title}.\nAs part of the ElectroMart Pro Hub initiative, we aim to provide\nup-to-date standards, calculations, and training materials for\nelectrical professionals in Nigeria.\n\n[ This is a dynamically generated placeholder document. ]\n[ The full technical text for "${title}" will be \n  inserted here once the administrative team uploads \n  the complete technical specifications. ]\n\nKey Areas Covered:\n- Safety Standards and Compliance\n- Installation Best Practices\n- Material Specifications\n- Troubleshooting and Maintenance\n\nFor immediate technical assistance, please use the \n"Book Consultation" button on the Pro Hub page to speak \nwith our licensed engineers.`;
+
+      doc.text(content, 20, 95, { maxWidth: 170, lineHeightFactor: 1.5 });
+      
+      // Footer
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text("© 2026 ElectroMart Nigeria. All rights reserved.", 105, 280, { align: "center" });
+      
+      // Save
+      doc.save(`${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
+      
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      showToast("Failed to generate document.", "warning");
+    }
+  };
+
   const resourceCategories = [
     {
       title: "Technical Standards",
@@ -91,14 +154,20 @@ const Resources = () => {
               <p>{cat.description}</p>
               <ul className="res-item-list">
                 {cat.items.map((item, i) => (
-                  <li key={i} onClick={() => showToast(`Starting secure download for ${item}...`, 'success')} style={{ cursor: 'pointer' }}>
+                  <li key={i} onClick={() => {
+                    showToast(`Preparing secure download for ${item}...`, 'success');
+                    setTimeout(() => generateResourcePDF(item, cat.title), 1500);
+                  }} style={{ cursor: 'pointer' }}>
                     <FileText size={14} />
                     <span>{item}</span>
                     <Download size={14} className="dl-icon" />
                   </li>
                 ))}
               </ul>
-              <button className="res-card-btn" onClick={() => showToast(`Opening ${cat.title} category...`, 'info')}>Explore Category <ExternalLink size={14} /></button>
+              <button className="res-card-btn" onClick={() => {
+                showToast(`Generating overview for ${cat.title}...`, 'info');
+                setTimeout(() => generateResourcePDF(`${cat.title} - Complete Category Overview`, 'Category Archive'), 1500);
+              }}>Explore Category <ExternalLink size={14} /></button>
             </div>
           ))}
         </div>
