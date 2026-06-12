@@ -49,7 +49,11 @@ const Shop = () => {
         const response = await fetch('/api/products');
         if (!response.ok) throw new Error('Server error');
         const data = await response.json();
-        setProducts(data);
+        
+        // Merge backend data with any items in inventoryData that haven't been pushed to the DB yet
+        const dbNames = new Set(data.map(p => p.name));
+        const localOnlyItems = inventoryData.filter(p => !dbNames.has(p.name));
+        setProducts([...data, ...localOnlyItems]);
       } catch (err) {
         console.warn('Backend unavailable, using local data:', err.message);
         setProducts(inventoryData);
