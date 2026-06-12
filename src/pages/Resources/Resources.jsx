@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { FileText, ShieldCheck, Zap, BookOpen, Download, HelpCircle, ExternalLink, PenTool, Calculator as CalcIcon } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
 import './Resources.css';
 
 const Resources = () => {
+  const { showToast } = useToast();
   const [voltageDrop, setVoltageDrop] = useState({ length: '', current: '', voltage: 230, result: null });
 
   const calculateVD = (e) => {
@@ -89,14 +91,14 @@ const Resources = () => {
               <p>{cat.description}</p>
               <ul className="res-item-list">
                 {cat.items.map((item, i) => (
-                  <li key={i}>
+                  <li key={i} onClick={() => showToast(`Starting secure download for ${item}...`, 'success')} style={{ cursor: 'pointer' }}>
                     <FileText size={14} />
                     <span>{item}</span>
                     <Download size={14} className="dl-icon" />
                   </li>
                 ))}
               </ul>
-              <button className="res-card-btn">Explore Category <ExternalLink size={14} /></button>
+              <button className="res-card-btn" onClick={() => showToast(`Opening ${cat.title} category...`, 'info')}>Explore Category <ExternalLink size={14} /></button>
             </div>
           ))}
         </div>
@@ -107,7 +109,9 @@ const Resources = () => {
               <h2>Need Custom Engineering Advice?</h2>
               <p>Our licensed electrical engineers are available for site survey consultations and material specification advice.</p>
             </div>
-            <button className="btn btn-primary">Book Consultation <PenTool size={18} /></button>
+            <button className="btn btn-primary" onClick={() => window.open('https://wa.me/?text=Hello! I would like to book a consultation with a licensed ElectroMart engineer for my project.', '_blank')}>
+              Book Consultation <PenTool size={18} />
+            </button>
           </div>
         </section>
 
