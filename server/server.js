@@ -131,12 +131,11 @@ mongoose
     console.error("❌ MongoDB Connection Error:", err?.message || err);
   });
 
-// Only listen locally, Vercel handles the serverless execution
-if (process.env.NODE_ENV !== "production") {
+// Export for Vercel serverless, but also start server for Render/local
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
 }
 
-// Export for Vercel serverless
 module.exports = app;
