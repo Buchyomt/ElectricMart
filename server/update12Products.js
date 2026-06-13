@@ -1,5 +1,5 @@
 /**
- * EllectricMart - Update 12 Products Script
+ * ElectricMart - Update 12 Products Script
  * Run with: node update12Products.js
  */
 

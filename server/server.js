@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 // 2. Session & Passport
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "ellectricmart_secret_2024",
+    secret: process.env.SESSION_SECRET || "electricmart_secret_2024",
     resave: false,
     saveUninitialized: false,
   }),
@@ -55,7 +55,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // 3. API Routes
-app.get("/", (req, res) => res.send("EllectricMart API is Online"));
+app.get("/", (req, res) => res.send("ElectricMart API is Online"));
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 

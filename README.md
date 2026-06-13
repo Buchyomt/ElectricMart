@@ -1,4 +1,4 @@
-# EllectricMart2
+# ElectricMart2
 
 Full-stack e-commerce app for electrical materials: **React (Vite)** frontend + **Express + MongoDB** backend.
 

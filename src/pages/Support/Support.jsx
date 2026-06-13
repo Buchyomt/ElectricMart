@@ -17,7 +17,7 @@ const Support = () => {
   const faqs = [
     {
       q: "Are your electrical products genuine?",
-      a: "Yes. Every item on EllectricMart is sourced directly from authorized distributors. We provide manufacturer warranties for brands like Schneider, Nexans, and ABB."
+      a: "Yes. Every item on ElectricMart is sourced directly from authorized distributors. We provide manufacturer warranties for brands like Schneider, Nexans, and ABB."
     },
     {
       q: "How fast is delivery within Lagos?",
@@ -51,21 +51,21 @@ const Support = () => {
         <main className="support-main">
           {/* Quick Contact Cards */}
           <section className="contact-cards">
-            <div className="contact-card whatsapp" onClick={() => window.open('https://wa.me/234800ELECTRO')}>
+            <div className="contact-card whatsapp" onClick={() => window.open('https://wa.me/234800ELECTRIC')}>
               <div className="card-icon"><MessageSquare size={24} /></div>
               <h3>WhatsApp Support</h3>
               <p>Instant chat with our sales engineers.</p>
               <span className="link-text">Chat Now <ChevronRight size={16} /></span>
             </div>
 
-            <div className="contact-card call" onClick={() => window.location.href = 'tel:+234800ELECTRO'}>
+            <div className="contact-card call" onClick={() => window.location.href = 'tel:+234800ELECTRIC'}>
               <div className="card-icon"><PhoneCall size={24} /></div>
               <h3>Call Center</h3>
               <p>Speak with our customer care reps.</p>
-              <span className="link-text">+234 810 596 8503 ELECTRO</span>
+              <span className="link-text">+234 810 596 8503 ELECTRIC</span>
             </div>
 
-            <div className="contact-card email" onClick={() => window.location.href = 'mailto:support@ellectricmart.com'}>
+            <div className="contact-card email" onClick={() => window.location.href = 'mailto:support@electricmart.com'}>
               <div className="card-icon"><Mail size={24} /></div>
               <h3>Email Inquiries</h3>
               <p>For formal quotes and official docs.</p>

@@ -25,7 +25,7 @@ function generateInvoicePDF(order, user) {
 
     // ── Header ───────────────────────────────────────────────────────────────
     doc.rect(0, 0, doc.page.width, 90).fill(DARK);
-    doc.fontSize(24).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELLECTRICMART', 50, 28);
+    doc.fontSize(24).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELECTRICMART', 50, 28);
     doc.fontSize(10).font('Helvetica').fillColor('#94A3B8').text('Professional Electrical Wholesaler · Lagos, Nigeria', 50, 58);
 
     doc.fillColor(BLUE).fontSize(18).font('Helvetica-Bold')
@@ -104,8 +104,8 @@ function generateInvoicePDF(order, user) {
     doc.rect(50, rowY, pageWidth, 1).fill(BORDER);
     rowY += 12;
     doc.fillColor(SLATE).fontSize(8).font('Helvetica')
-      .text('Thank you for your business. For enquiries call +234 800 ELECTRO or email help@ellectricmart.ng', 50, rowY, { align: 'center', width: pageWidth })
-      .text('EllectricMart Nigeria · Professional Electrical Wholesaler · Alaba to Lekki', 50, rowY + 14, { align: 'center', width: pageWidth });
+      .text('Thank you for your business. For enquiries call +234 800 ELECTRIC or email help@electricmart.ng', 50, rowY, { align: 'center', width: pageWidth })
+      .text('ElectricMart Nigeria · Professional Electrical Wholesaler · Alaba to Lekki', 50, rowY + 14, { align: 'center', width: pageWidth });
 
     doc.end();
   });
@@ -126,19 +126,19 @@ function generateWaybillPDF(order) {
 
     // ── Header ───────────────────────────────────────────────────────────────
     doc.rect(0, 0, doc.page.width, 90).fill(DARK);
-    doc.fontSize(22).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELLECTRICMART', 50, 28);
-    doc.fontSize(10).font('Helvetica').fillColor('#94A3B8').text('Lagos, Nigeria · +234 800 ELECTRO', 50, 58);
+    doc.fontSize(22).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELECTRICMART', 50, 28);
+    doc.fontSize(10).font('Helvetica').fillColor('#94A3B8').text('Lagos, Nigeria · +234 800 ELECTRIC', 50, 58);
     doc.fillColor(BLUE).fontSize(16).font('Helvetica-Bold').text('OFFICIAL DELIVERY WAYBILL', 300, 35, { width: 250, align: 'right' });
     doc.fillColor('#94A3B8').fontSize(9).text(`Date: ${new Date().toLocaleDateString('en-NG')}`, 300, 58, { width: 250, align: 'right' });
 
     // ── Shipment Details ──────────────────────────────────────────────────────
     doc.rect(50, 105, 240, 90).lineWidth(1).strokeColor(BORDER).stroke();
     doc.fillColor(SLATE).fontSize(8).font('Helvetica-Bold').text('SHIP FROM', 65, 115);
-    doc.fillColor(DARK).fontSize(10).font('Helvetica-Bold').text('EllectricMart Nigeria', 65, 128);
+    doc.fillColor(DARK).fontSize(10).font('Helvetica-Bold').text('ElectricMart Nigeria', 65, 128);
     doc.fillColor(SLATE).fontSize(9).font('Helvetica')
       .text('Alaba International Market, Lagos', 65, 142)
-      .text('+234 800 ELECTRO', 65, 156)
-      .text('help@ellectricmart.ng', 65, 170);
+      .text('+234 800 ELECTRIC', 65, 156)
+      .text('help@electricmart.ng', 65, 170);
 
     doc.rect(310, 105, 240, 90).lineWidth(1).strokeColor(BORDER).stroke();
     doc.fillColor(SLATE).fontSize(8).font('Helvetica-Bold').text('SHIP TO', 325, 115);
@@ -201,7 +201,7 @@ function generateWaybillPDF(order) {
     doc.rect(50, rowY, pageWidth, 1).fill(BORDER);
     doc.fillColor(SLATE).fontSize(8).font('Helvetica')
       .text('This waybill confirms dispatch of the listed materials. Any discrepancy must be reported within 24 hours.', 50, rowY + 10, { align: 'center', width: pageWidth })
-      .text('EllectricMart Nigeria — help@ellectricmart.ng — +234 800 ELECTRO', 50, rowY + 22, { align: 'center', width: pageWidth });
+      .text('ElectricMart Nigeria — help@electricmart.ng — +234 800 ELECTRIC', 50, rowY + 22, { align: 'center', width: pageWidth });
 
     doc.end();
   });
@@ -225,7 +225,7 @@ function generateQuotePDF(quote, user) {
 
     // Header
     doc.rect(0, 0, doc.page.width, 90).fill(DARK);
-    doc.fontSize(24).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELLECTRICMART', 50, 28);
+    doc.fontSize(24).font('Helvetica-Bold').fillColor('#FFFFFF').text('⚡ ELECTRICMART', 50, 28);
     doc.fontSize(10).font('Helvetica').fillColor('#94A3B8').text('Professional Electrical Wholesaler · Lagos, Nigeria', 50, 58);
     doc.fillColor(BLUE).fontSize(18).font('Helvetica-Bold').text('PROJECT QUOTE', 300, 35, { width: 250, align: 'right' });
 
@@ -298,7 +298,7 @@ function generateQuotePDF(quote, user) {
     rowY += 50;
     doc.fillColor(SLATE).fontSize(8).font('Helvetica-Oblique')
       .text('This quote is valid for 30 days from the date of issue. Prices are subject to market conditions. Contact us to confirm availability.', 50, rowY, { width: pageWidth })
-      .text('EllectricMart Nigeria — help@ellectricmart.ng — +234 800 ELECTRO', 50, rowY + 20, { align: 'center', width: pageWidth });
+      .text('ElectricMart Nigeria — help@electricmart.ng — +234 800 ELECTRIC', 50, rowY + 20, { align: 'center', width: pageWidth });
 
     doc.end();
   });

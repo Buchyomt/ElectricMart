@@ -177,7 +177,7 @@ const Landing = () => {
       <section className="how-it-works-section" style={{ padding: '6rem 0', background: 'white' }}>
         <div className="container">
           <div className="section-header text-center" style={{ marginBottom: '4rem' }}>
-            <h2 className="section-title">How EllectricMart Works</h2>
+            <h2 className="section-title">How ElectricMart Works</h2>
             <p className="section-subtitle">A streamlined process designed for professionals.</p>
           </div>
           
@@ -264,7 +264,7 @@ const Landing = () => {
                 {[1,2,3,4,5].map(i => <Star key={i} size={20} fill="#fbbf24" color="#fbbf24" />)}
               </div>
               <blockquote>
-                "EllectricMart completely transformed our procurement process. We cut down sourcing time by 60% and their material estimator is scarily accurate."
+                "ElectricMart completely transformed our procurement process. We cut down sourcing time by 60% and their material estimator is scarily accurate."
               </blockquote>
               <div className="testimonial-author">
                 <div className="author-avatar">OJ</div>
@@ -282,7 +282,7 @@ const Landing = () => {
       <section className="landing-cta">
         <div className="container text-center">
           <h2>Ready to power up your next project?</h2>
-          <p>Join thousands of professionals already using EllectricMart.</p>
+          <p>Join thousands of professionals already using ElectricMart.</p>
           <div className="cta-buttons">
             <button className="btn btn-primary btn-lg" onClick={() => navigate('/store')}>Go to Storefront</button>
             <button className="btn btn-outline btn-lg" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.5)' }} onClick={() => navigate('/shop')}>Explore Shop</button>

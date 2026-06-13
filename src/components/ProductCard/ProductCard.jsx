@@ -130,7 +130,7 @@ const ProductCard = ({ product }) => {
               className="btn btn-primary request-quote-btn"
               onClick={(e) => {
                 e.preventDefault();
-                window.open(`https://wa.me/234800ELECTRO?text=I'm interested in the ${product.name}`, '_blank');
+                window.open(`https://wa.me/234800ELECTRIC?text=I'm interested in the ${product.name}`, '_blank');
               }}
             >
               <MessageCircle size={16} style={{ marginRight: '8px' }} />

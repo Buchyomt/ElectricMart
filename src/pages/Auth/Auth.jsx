@@ -170,12 +170,12 @@ const Auth = () => {
               <div className="bolt-icon-bg">
                 <Zap className="text-white" size={24} fill="white" />
               </div>
-              <h2>ELLECTRICMART</h2>
+              <h2>ELECTRICMART</h2>
             </div>
 
             <div className="auth-hero-text">
               <h1>The Professional Choice for Electrical Supply.</h1>
-              <p>Join thousands of engineers and contractors who trust EllectricMart for quality components and lightning-fast delivery across Nigeria.</p>
+              <p>Join thousands of engineers and contractors who trust ElectricMart for quality components and lightning-fast delivery across Nigeria.</p>
             </div>
 
             <ul className="auth-features">

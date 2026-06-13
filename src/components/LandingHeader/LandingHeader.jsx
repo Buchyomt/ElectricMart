@@ -26,7 +26,7 @@ const LandingHeader = () => {
       <div className="container landing-header-inner">
         <Link to="/" className="landing-logo">
           <Zap size={28} color={scrolled ? "#2563eb" : "#fbbf24"} fill={scrolled ? "#2563eb" : "#fbbf24"} />
-          <span style={{ color: scrolled ? '#0f172a' : '#ffffff' }}>EllectricMart</span>
+          <span style={{ color: scrolled ? '#0f172a' : '#ffffff' }}>ElectricMart</span>
         </Link>
 
         <nav className="landing-nav-desktop">

@@ -82,7 +82,7 @@ const Header = () => {
         <div className="container header-main-content">
           <Link to="/" className="brand">
             <span className="bolt">⚡</span>
-            <h1>EllectricMart</h1>
+            <h1>ElectricMart</h1>
           </Link>
 
           <form className="search-bar" onSubmit={(e) => {

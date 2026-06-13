@@ -32,20 +32,20 @@ router.post('/subscribe', async (req, res) => {
 
     // Send confirmation email to subscriber
     await transporter.sendMail({
-      from: `"EllectricMart" <${process.env.EMAIL_USER}>`,
+      from: `"ElectricMart" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: '🎉 Welcome to EllectricMart Contractor Updates!',
+      subject: '🎉 Welcome to ElectricMart Contractor Updates!',
       html: `
         <div style="font-family: 'Arial', sans-serif; max-width: 580px; margin: 0 auto; background: #0f172a; border-radius: 16px; overflow: hidden;">
           <div style="background: linear-gradient(135deg, #1e3a5f, #2563eb); padding: 40px 32px; text-align: center;">
             <div style="font-size: 40px; margin-bottom: 12px;">⚡</div>
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 800;">EllectricMart</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 800;">ElectricMart</h1>
             <p style="color: rgba(255,255,255,0.7); margin: 8px 0 0;">Lagos's #1 Electrical Marketplace</p>
           </div>
           <div style="padding: 40px 32px;">
             <h2 style="color: #f1f5f9; font-size: 22px; margin: 0 0 16px;">You're officially in! 🎉</h2>
             <p style="color: #94a3b8; line-height: 1.7; margin: 0 0 24px;">
-              Thank you for subscribing to <strong style="color: #3b82f6;">EllectricMart Contractor Updates</strong>. 
+              Thank you for subscribing to <strong style="color: #3b82f6;">ElectricMart Contractor Updates</strong>. 
               You'll now receive:
             </p>
             <div style="background: #1e293b; border-radius: 12px; padding: 24px; margin: 0 0 28px;">
@@ -66,13 +66,13 @@ router.post('/subscribe', async (req, res) => {
                 <span>Contractor tips and guides</span>
               </div>
             </div>
-            <a href="https://ellectricmart.com/shop" style="display: block; text-align: center; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; text-decoration: none; padding: 16px 32px; border-radius: 10px; font-weight: 700; font-size: 16px;">
+            <a href="https://electricmart.com/shop" style="display: block; text-align: center; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; text-decoration: none; padding: 16px 32px; border-radius: 10px; font-weight: 700; font-size: 16px;">
               Start Shopping Now →
             </a>
           </div>
           <div style="background: #0f172a; padding: 24px 32px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
             <p style="color: #475569; font-size: 13px; margin: 0;">
-              You're receiving this because you subscribed at <strong>EllectricMart</strong>.<br/>
+              You're receiving this because you subscribed at <strong>ElectricMart</strong>.<br/>
               <a href="#" style="color: #3b82f6;">Unsubscribe</a> at any time.
             </p>
           </div>
@@ -82,7 +82,7 @@ router.post('/subscribe', async (req, res) => {
 
     // Also notify the admin
     await transporter.sendMail({
-      from: `"EllectricMart System" <${process.env.EMAIL_USER}>`,
+      from: `"ElectricMart System" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       subject: '📬 New Newsletter Subscriber',
       html: `

@@ -72,13 +72,13 @@ const Checkout = () => {
     doc.setFontSize(26);
     doc.setTextColor(...primaryBlue);
     doc.setFont("helvetica", "bold");
-    doc.text("ELLECTRICMART", 20, 25);
+    doc.text("ELECTRICMART", 20, 25);
     
     doc.setFontSize(10);
     doc.setTextColor(...grayText);
     doc.setFont("helvetica", "normal");
     doc.text("Professional B2B Electrical Marketplace", 20, 32);
-    doc.text("Lagos, Nigeria | +234 800 ELECTRO", 20, 37);
+    doc.text("Lagos, Nigeria | +234 800 ELECTRIC", 20, 37);
 
     // Invoice Meta
     doc.setFontSize(16);
@@ -591,7 +591,7 @@ const Checkout = () => {
               <button 
                 className="btn-track-secondary"
                 onClick={() => {
-                  const message = `Hello! I just placed a professional order on EllectricMart⚡\n\nOrder ID: #${confirmedOrder.orderId}\nTotal: N${confirmedOrder.total.toLocaleString()}\n\nYou can track my material dispatch here: ${window.location.origin}/track/${confirmedOrder.orderId}`;
+                  const message = `Hello! I just placed a professional order on ElectricMart⚡\n\nOrder ID: #${confirmedOrder.orderId}\nTotal: N${confirmedOrder.total.toLocaleString()}\n\nYou can track my material dispatch here: ${window.location.origin}/track/${confirmedOrder.orderId}`;
                   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                 }}
               >
