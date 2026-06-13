@@ -20,6 +20,7 @@ const paymentRoutes = require("./routes/paymentRoutes");
 const quoteRoutes = require("./routes/quoteRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const newsletterRoutes = require("./routes/newsletterRoutes");
 
 const app = express();
 
@@ -105,6 +106,7 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/quotes", quoteRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/newsletter", newsletterRoutes);
 
 // 4. Database & Startup
 const PORT = Number(process.env.PORT) || 5005;

@@ -42,6 +42,9 @@ const staggerContainer = {
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState(null); // null | 'loading' | 'success' | 'error' | 'exists'
+  const [newsletterMessage, setNewsletterMessage] = useState('');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -61,6 +64,33 @@ const Home = () => {
     };
     fetchProducts();
   }, []);
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    setNewsletterStatus('loading');
+    try {
+      const res = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail })
+      });
+      const data = await res.json();
+      if (res.status === 201) {
+        setNewsletterStatus('success');
+        setNewsletterMessage(data.message);
+        setNewsletterEmail('');
+      } else if (res.status === 409) {
+        setNewsletterStatus('exists');
+        setNewsletterMessage(data.message);
+      } else {
+        setNewsletterStatus('error');
+        setNewsletterMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setNewsletterStatus('error');
+      setNewsletterMessage('Could not connect. Please check your connection.');
+    }
+  };
 
   const categories = [
     { title: 'Cables & Wires', query: 'Cables & Wires', icon: <Activity /> },
@@ -308,10 +338,58 @@ const Home = () => {
           <Mail size={40} color="#3b82f6" style={{ margin: '0 auto 20px' }} />
           <h2 style={{ fontSize: '2rem', marginBottom: '16px', color: '#0f172a' }}>Get Contractor Updates</h2>
           <p style={{ color: '#64748b', marginBottom: '30px', fontSize: '1.1rem' }}>Join our mailing list to receive weekly price updates, new inventory alerts, and exclusive trade discounts.</p>
-          <form style={{ display: 'flex', gap: '10px', maxWidth: '400px', margin: '0 auto' }} onSubmit={e => { e.preventDefault(); alert('Subscribed!'); }}>
-            <input type="email" placeholder="Enter your email address" required style={{ flex: 1, padding: '14px 20px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }} />
-            <button type="submit" className="btn btn-primary" style={{ padding: '14px 24px', borderRadius: '8px' }}>Subscribe</button>
-          </form>
+
+          {/* Notification Banner */}
+          {newsletterStatus && newsletterStatus !== 'loading' && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '16px 24px',
+              borderRadius: '14px',
+              marginBottom: '24px',
+              textAlign: 'left',
+              fontWeight: '600',
+              fontSize: '0.95rem',
+              animation: 'fadeInDown 0.4s ease',
+              ...(newsletterStatus === 'success'
+                ? { background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)', border: '1px solid #86efac', color: '#15803d' }
+                : newsletterStatus === 'exists'
+                ? { background: 'linear-gradient(135deg, #fef9c3, #fef08a)', border: '1px solid #fde047', color: '#854d0e' }
+                : { background: 'linear-gradient(135deg, #fee2e2, #fecaca)', border: '1px solid #fca5a5', color: '#b91c1c' })
+            }}>
+              <span style={{ fontSize: '22px' }}>
+                {newsletterStatus === 'success' ? '🎉' : newsletterStatus === 'exists' ? '📬' : '⚠️'}
+              </span>
+              <span>{newsletterMessage}</span>
+            </div>
+          )}
+
+          {newsletterStatus !== 'success' && (
+            <form
+              style={{ display: 'flex', gap: '10px', maxWidth: '460px', margin: '0 auto' }}
+              onSubmit={handleNewsletterSubmit}
+            >
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                required
+                value={newsletterEmail}
+                onChange={e => setNewsletterEmail(e.target.value)}
+                style={{ flex: 1, padding: '14px 20px', borderRadius: '10px', border: '2px solid #cbd5e1', outline: 'none', fontSize: '1rem', transition: 'border-color 0.2s' }}
+                onFocus={e => e.target.style.borderColor = '#3b82f6'}
+                onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+              />
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={newsletterStatus === 'loading'}
+                style={{ padding: '14px 24px', borderRadius: '10px', whiteSpace: 'nowrap', opacity: newsletterStatus === 'loading' ? 0.7 : 1 }}
+              >
+                {newsletterStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
     </div>
