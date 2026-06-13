@@ -31,8 +31,8 @@ import {
   Send,
   Tag,
   Clock,
-  Shield,
-  Zap
+  Zap,
+  Trash2
 } from 'lucide-react';
 import './Dashboard.css';
 
@@ -725,8 +725,8 @@ const Dashboard = () => {
                     <td>
                       <div className="db-actions-cell" style={{display: 'flex', gap: '1rem', justifyContent: 'flex-end'}}>
                         <button className="btn btn-outline btn-sm" onClick={() => navigate(`/product/${product._id}`)}>View Details</button>
-                        <button className="btn-icon-danger" onClick={() => toggleWishlist(product._id)} title="Remove from Saved">
-                          <Heart size={18} fill="#ef4444" />
+                        <button className="btn-icon-danger" onClick={() => toggleWishlist(product._id)} title="Remove from Saved" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: 'auto', padding: '0 1rem' }}>
+                          <Trash2 size={16} /> <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Remove</span>
                         </button>
                       </div>
                     </td>

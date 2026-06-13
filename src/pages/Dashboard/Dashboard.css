@@ -1059,8 +1059,10 @@
 }
 
 .price-cell {
-  font-size: 1.1rem;
-  color: var(--db-text-main);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.5px;
 }
 
 .btn-icon-danger {
