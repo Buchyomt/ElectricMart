@@ -96,7 +96,7 @@ const AdminDashboard = () => {
   const updateStatus = async (orderId, updates) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders/${orderId}/status`, {
-        method: `PATCH',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
       });
@@ -112,7 +112,7 @@ const AdminDashboard = () => {
   const handleUpdateStock = async (productId, newQuantity) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/products/${productId}/stock`, {
-        method: `PATCH',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stockQuantity: parseInt(newQuantity) })
       });
@@ -537,7 +537,7 @@ const AdminDashboard = () => {
   const updateTradeLevel = async (userId, newLevel) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/users/${userId}/trade-level`, {
-        method: `PATCH',
+        method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}` 
@@ -560,7 +560,7 @@ const AdminDashboard = () => {
   const updateQuoteStatus = async (quoteId, status) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/${quoteId}/respond`, {
-        method: `PATCH',
+        method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}` 

@@ -111,7 +111,7 @@ export const CartProvider = ({ children }) => {
     if (isAuthenticated && token) {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart/${productId}`, {
-          method: `DELETE',
+          method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -140,7 +140,7 @@ export const CartProvider = ({ children }) => {
     if (isAuthenticated && token) {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart/${productId}`, {
-          method: `PUT',
+          method: 'PUT',
           headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` 

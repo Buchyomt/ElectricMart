@@ -247,7 +247,7 @@ const Dashboard = () => {
     if (!replyText.trim()) return;
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tickets/${ticketId}/reply`, {
-        method: `POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ message: replyText })
       });

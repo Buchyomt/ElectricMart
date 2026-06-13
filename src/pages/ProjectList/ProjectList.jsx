@@ -41,7 +41,7 @@ const ProjectList = () => {
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/${quote._id}/convert`, {
-        method: `POST',
+        method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}` 

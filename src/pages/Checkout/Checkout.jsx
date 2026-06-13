@@ -262,7 +262,7 @@ const Checkout = () => {
           
           // Update backend payment status without making the callback itself async
           fetch(`${import.meta.env.VITE_API_URL || ''}/api/orders/${createdOrder._id}/pay`, {
-            method: `PATCH',
+            method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
