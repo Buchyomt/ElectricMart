@@ -64,3 +64,8 @@
 .app-container {
   padding-top: 145px;
 }
+
+/* Remove padding for admin layout which has no main header */
+.app-container.admin-layout {
+  padding-top: 0;
+}

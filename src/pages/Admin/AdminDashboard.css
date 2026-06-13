@@ -1,7 +1,6 @@
 .admin-page {
   background-color: #f1f5f9;
   min-height: 100vh;
-  margin-top: -145px; /* Offset fixed header for full control */
   padding-top: 0;
   position: relative;
   z-index: 15000;
