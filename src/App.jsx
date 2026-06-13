@@ -27,9 +27,9 @@ const AppContent = () => {
   const isLandingPage = location.pathname === '/';
 
   return (
-    <div className={`app-container ${isAdminPath ? 'admin-layout' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className={`app-container ${isAdminPath ? 'admin-layout' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', paddingTop: isAdminPath ? 0 : '' }}>
       {!isAdminPath && <Header />}
-      <main className={isAdminPath ? '' : 'animate-fade-in'} style={{ flexGrow: 1 }}>
+      <main className={isAdminPath ? '' : 'animate-fade-in'} style={{ flexGrow: 1, padding: 0, margin: 0 }}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/store" element={<Home />} />
