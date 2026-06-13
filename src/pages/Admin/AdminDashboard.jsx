@@ -409,8 +409,6 @@ const AdminDashboard = () => {
                 </div>
               </section>
             )}
-
-            {renderOrdersTable()}
           </div>
 
           <div className="dashboard-side-col">
@@ -448,6 +446,11 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Full-width Transactions Table */}
+        <div className="full-width-table-container animate-fade-in" style={{ marginTop: '24px' }}>
+          {renderOrdersTable()}
         </div>
       </div>
     );
