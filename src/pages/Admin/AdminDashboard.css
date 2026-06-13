@@ -1053,72 +1053,367 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-/* --- Responsive Adjustments --- */
+/* ===================================================
+   COMPREHENSIVE RESPONSIVE STYLES — ADMIN DASHBOARD
+   =================================================== */
+
+/* --- Tablet: 1024px and below --- */
 @media (max-width: 1024px) {
   .admin-container {
     flex-direction: column;
   }
+
   .admin-sidebar {
     width: 100%;
     height: auto;
-    position: relative;
-    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 1.5rem;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
+
+  .admin-logo {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
   .admin-nav {
     flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 10px;
-    gap: 15px;
+    padding-bottom: 0;
+    gap: 4px;
+    flex-grow: 1;
+    justify-content: flex-end;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none;
+  }
+
   .admin-nav button {
     white-space: nowrap;
-    padding: 8px 16px;
-    border-left: none;
+    padding: 8px 14px;
+    border-left: none !important;
     border-bottom: 2px solid transparent;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.85rem;
   }
-  .admin-nav button:hover, .admin-nav button.active {
-    border-left: none;
+
+  .admin-nav button:hover,
+  .admin-nav button.active {
+    border-left: none !important;
     border-bottom: 2px solid #3b82f6;
+    background: rgba(255, 255, 255, 0.08);
   }
-  .admin-logo {
-    margin-bottom: 0;
+
+  .admin-content {
+    padding: 1.5rem 2rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preferences-grid {
+    grid-template-columns: 1fr;
   }
 }
 
+/* --- Small Tablet / Large Mobile: 768px and below --- */
 @media (max-width: 768px) {
+  .admin-content {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Stats grid: 2 columns on tablet */
   .admin-stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  /* Header stacks vertically */
   .admin-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
+
+  .admin-user {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Orders header stacks */
   .orders-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+    padding: 1rem;
   }
+
   .search-bar-admin {
     width: 100%;
   }
+
+  /* Horizontal scroll for all tables */
   .orders-table-wrapper {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
-}
 
-@media (max-width: 480px) {
-  .admin-stats-grid {
+  .admin-table {
+    min-width: 640px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 0.875rem 1rem;
+    white-space: nowrap;
+  }
+
+  /* Quick actions wrap */
+  .quick-actions-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-quick-action {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+
+  /* Order tabs scroll */
+  .order-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1rem;
+    padding-bottom: 4px;
+  }
+
+  .order-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Low stock card stacks on mobile */
+  .low-stock-card {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .restock-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* Dashboard side col goes below */
+  .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
-  .admin-content {
-    padding: 1rem;
+
+  /* Modal fills screen */
+  .admin-modal-overlay {
+    padding: 0.5rem;
+    align-items: flex-end;
   }
+
+  .admin-modal {
+    max-height: 95vh;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .modal-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .summary-row {
+    width: 100%;
+  }
+
+  /* Bulk actions bar */
   .bulk-actions-bar {
     flex-direction: column;
     gap: 1rem;
+    text-align: center;
+  }
+
+  .bulk-btns {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Settings */
+  .settings-section {
+    padding: 1.25rem;
+  }
+
+  .profile-upload-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .preferences-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Mobile: 480px and below --- */
+@media (max-width: 480px) {
+  .admin-sidebar {
+    padding: 0.75rem 1rem;
+  }
+
+  .admin-logo span {
+    font-size: 1rem;
+  }
+
+  .admin-nav button {
+    padding: 7px 10px;
+    font-size: 0.78rem;
+  }
+
+  /* Stats: single column on phone */
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-item {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+  }
+
+  .admin-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.4rem;
+  }
+
+  /* Table min-width to ensure it scrolls */
+  .admin-table {
+    min-width: 560px;
+    font-size: 0.85rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 0.75rem 0.75rem;
+  }
+
+  /* Action buttons */
+  .action-btns {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn-details,
+  .btn-waybill {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.78rem;
+    padding: 6px 10px;
+  }
+
+  /* Low stock panel */
+  .low-stock-panel {
+    padding: 1rem;
+  }
+
+  .low-stock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Inventory view */
+  .inventory-view {
+    padding: 1rem;
+  }
+
+  /* Modal */
+  .admin-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .admin-modal {
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-footer {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .modal-footer button {
+    width: 100%;
+  }
+
+  /* Toast notification on mobile */
+  .admin-toast {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    font-size: 0.9rem;
+  }
+
+  /* Bulk action bar */
+  .bulk-actions-bar {
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+
+  /* Settings */
+  .settings-section {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .system-logs-area {
+    height: 250px;
+    font-size: 0.78rem;
+  }
+
+  .preference-card {
+    flex-direction: row;
+    gap: 12px;
   }
 }
