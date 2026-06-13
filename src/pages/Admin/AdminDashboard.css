@@ -1077,9 +1077,8 @@ input:checked + .slider:before {
     top: 0;
     z-index: 100;
     padding: 1rem 1.5rem;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: stretch;
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
@@ -1091,16 +1090,25 @@ input:checked + .slider:before {
   .admin-nav {
     flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 0;
+    padding: 0.5rem 0 0;
     gap: 4px;
     flex-grow: 1;
-    justify-content: flex-end;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
   }
 
   .admin-nav::-webkit-scrollbar {
-    display: none;
+    height: 3px;
+  }
+
+  .admin-nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .admin-nav::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
   }
 
   .admin-nav button {
