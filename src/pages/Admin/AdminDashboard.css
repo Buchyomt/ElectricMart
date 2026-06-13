@@ -82,6 +82,8 @@
   flex-grow: 1;
   padding: 2rem 3rem;
   background-color: #f8fafc;
+  min-width: 0; /* Fix flexbox content stretching */
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .admin-header {
@@ -796,6 +798,11 @@
   margin-bottom: 24px;
 }
 
+.dashboard-main-col,
+.dashboard-side-col {
+  min-width: 0;
+}
+
 /* Activity Feed */
 .activity-feed {
   background: white;
@@ -1134,6 +1141,11 @@ input:checked + .slider:before {
   .admin-stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+  
+  /* Make the 3rd stat card span full width to avoid blank spaces */
+  .admin-stats-grid > :nth-child(3) {
+    grid-column: span 2;
   }
 
   .stat-value {
