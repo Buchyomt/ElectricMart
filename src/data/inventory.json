@@ -999,5 +999,31 @@
     "isBulkPricing": false,
     "category": "Lighting",
     "id": 77
+  },
+  {
+    "name": "Flush Light",
+    "brand": "Generic",
+    "price": 55000,
+    "rating": 4.8,
+    "reviews": 5,
+    "image": "Flush Light .jpeg",
+    "spec": "Modern Design",
+    "deliveryTime": "1-3 days",
+    "isBulkPricing": false,
+    "category": "Lighting",
+    "id": 78
+  },
+  {
+    "name": "Flush Light Cube",
+    "brand": "Generic",
+    "price": 55000,
+    "rating": 4.8,
+    "reviews": 5,
+    "image": "Flush Light Cube.jpeg",
+    "spec": "Modern Design",
+    "deliveryTime": "1-3 days",
+    "isBulkPricing": false,
+    "category": "Lighting",
+    "id": 79
   }
 ]
