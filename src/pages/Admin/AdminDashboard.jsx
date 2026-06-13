@@ -57,14 +57,14 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const [ordersRes, statsRes, lowStockRes, productsRes, quotesRes, usersRes, meRes, settingsRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/stats', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/low-stock', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/products'), // Fetch all products for the master list
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/admin/all', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/users', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/me', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/settings', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/stats`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/low-stock`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/products`), // Fetch all products for the master list
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/admin/all`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/users`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/me`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/settings`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
         ]);
         if (ordersRes.ok) setOrders(await ordersRes.json());
         if (statsRes.ok) setStats(await statsRes.json());
@@ -96,7 +96,7 @@ const AdminDashboard = () => {
   const updateStatus = async (orderId, updates) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders/${orderId}/status`, {
-        method: 'PATCH',
+        method: `PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates)
       });
@@ -112,15 +112,15 @@ const AdminDashboard = () => {
   const handleUpdateStock = async (productId, newQuantity) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/products/${productId}/stock`, {
-        method: 'PATCH',
+        method: `PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stockQuantity: parseInt(newQuantity) })
       });
       if (res.ok) {
         // Refresh both lists
         const [lowRes, prodRes] = await Promise.all([
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/low-stock'),
-          fetch(`${import.meta.env.VITE_API_URL || ''}/api/products')
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/low-stock`),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/products`)
         ]);
         if (lowRes.ok) setLowStock(await lowRes.json());
         if (prodRes.ok) setAllProducts(await prodRes.json());
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
     formData.append('avatar', avatarFile);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/avatar', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/avatar`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: formData
@@ -166,7 +166,7 @@ const AdminDashboard = () => {
     const newValue = !storeSettings[key];
     setStoreSettings({ ...storeSettings, [key]: newValue });
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/settings', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/settings`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ const AdminDashboard = () => {
 
   const handleExportCSV = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders/export', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/orders/export`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       if (!res.ok) throw new Error('Export failed');
@@ -537,7 +537,7 @@ const AdminDashboard = () => {
   const updateTradeLevel = async (userId, newLevel) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/admin/users/${userId}/trade-level`, {
-        method: 'PATCH',
+        method: `PATCH',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}` 
@@ -560,7 +560,7 @@ const AdminDashboard = () => {
   const updateQuoteStatus = async (quoteId, status) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/${quoteId}/respond`, {
-        method: 'PATCH',
+        method: `PATCH',
         headers: { 
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}` 

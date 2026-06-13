@@ -24,7 +24,7 @@ export const CartProvider = ({ children }) => {
       setLoading(true);
       if (isAuthenticated && token) {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart', {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = useCallback(async (product, quantity = 1) => {
     if (isAuthenticated && token) {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export const CartProvider = ({ children }) => {
     if (isAuthenticated && token) {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart/${productId}`, {
-          method: 'DELETE',
+          method: `DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -140,7 +140,7 @@ export const CartProvider = ({ children }) => {
     if (isAuthenticated && token) {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart/${productId}`, {
-          method: 'PUT',
+          method: `PUT',
           headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}` 
@@ -169,7 +169,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = useCallback(async () => {
     if (isAuthenticated && token) {
       try {
-        await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart', {
+        await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cart`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });

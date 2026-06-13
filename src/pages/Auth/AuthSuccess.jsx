@@ -14,7 +14,7 @@ const AuthSuccess = () => {
 
     if (token) {
       // Fetch user profile using the token, then store via context
-      fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/me', {
+      fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

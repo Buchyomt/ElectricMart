@@ -53,7 +53,7 @@ const ProductDetails = () => {
         if (localMatch) {
           setProduct(localMatch);
         } else {
-          setError('Product not found in our catalog.');
+          setError(`Product not found in our catalog.');
         }
       } catch (err) {
         setError('An unexpected error occurred.');
