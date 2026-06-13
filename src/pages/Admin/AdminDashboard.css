@@ -83,7 +83,7 @@
   padding: 2rem 3rem;
   background-color: #f8fafc;
   min-width: 0; /* Fix flexbox content stretching */
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  overflow-x: auto; /* Allow horizontal scroll when table is wider than viewport */
 }
 
 .admin-header {
@@ -174,7 +174,8 @@
   background: white;
   border-radius: 20px;
   border: 1px solid #e2e8f0;
-  overflow: hidden;
+  overflow: visible;
+  overflow-x: auto;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
