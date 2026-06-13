@@ -696,37 +696,40 @@ const Dashboard = () => {
           </div>
         );
       case 'saved': return (
-        <div className="tab-view">
-          <div className="section-header"><h2>Saved Items</h2></div>
-          <div className="db-table-card">
-            <table className="db-data-table">
-              <thead>
-                <tr><th>Product</th><th>Brand</th><th>Price</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                {wishlist.map(product => (
-                  <tr key={product._id}>
-                    <td className="db-product-cell">
-                      <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-                        <img src={product.image?.startsWith('http') ? product.image : `/${product.image}`} alt="" style={{width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover'}} />
-                        <span>{product.name}</span>
-                      </div>
-                    </td>
-                    <td>{product.brand}</td>
-                    <td className="font-bold">{formatCurrency(product.price)}</td>
-                    <td>
-                      <div className="db-actions-cell" style={{display: 'flex', gap: '1rem'}}>
-                        <button className="view-all-btn" onClick={() => navigate(`/product/${product._id}`)}>View</button>
-                        <button className="view-all-btn" style={{color: '#ef4444'}} onClick={() => toggleWishlist(product._id)}>Remove</button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {wishlist.length === 0 && (
-                  <tr><td colSpan="4" style={{textAlign: 'center', padding: '40px'}}>Your wishlist is empty.</td></tr>
-                )}
-              </tbody>
-            </table>
+        <div className="tab-view animate-fade-in">
+          <div className="section-header">
+             <div>
+               <h2>Saved Items</h2>
+               <p style={{ color: '#64748b', fontSize: '0.95rem', marginTop: '0.25rem' }}>Products you've saved for later.</p>
+             </div>
+          </div>
+          <div className="saved-items-grid">
+            {wishlist.map(product => (
+              <div key={product._id} className="saved-item-card">
+                <div className="saved-item-img">
+                  <img src={product.image?.startsWith('http') ? product.image : `/${product.image}`} alt={product.name} />
+                  <button className="remove-saved-btn" onClick={() => toggleWishlist(product._id)} title="Remove from wishlist">
+                    <Heart size={18} fill="#ef4444" color="#ef4444" />
+                  </button>
+                </div>
+                <div className="saved-item-info">
+                  <span className="saved-item-brand">{product.brand}</span>
+                  <h4>{product.name}</h4>
+                  <div className="saved-item-bottom">
+                    <span className="saved-item-price">{formatCurrency(product.price)}</span>
+                    <button className="btn btn-primary btn-sm" onClick={() => navigate(`/product/${product._id}`)}>View Product</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {wishlist.length === 0 && (
+              <div className="db-table-card" style={{ padding: '4rem 2rem', textAlign: 'center', gridColumn: '1 / -1' }}>
+                <Heart size={48} style={{ color: '#cbd5e1', marginBottom: '1rem', fill: 'transparent' }} />
+                <h3 style={{ marginBottom: '0.5rem', color: '#0f172a' }}>Your wishlist is empty</h3>
+                <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>You haven't saved any items yet. Start exploring our catalog.</p>
+                <button className="btn btn-primary" onClick={() => navigate('/shop')}>Explore Products</button>
+              </div>
+            )}
           </div>
         </div>
       );
