@@ -13,7 +13,7 @@ export const WishlistProvider = ({ children }) => {
   const fetchWishlist = async () => {
     if (!token) return;
     try {
-      const res = await fetch('/api/wishlist', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/wishlist', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -40,7 +40,7 @@ export const WishlistProvider = ({ children }) => {
     }
 
     try {
-      const res = await fetch(`/api/wishlist/${productId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/wishlist/${productId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -31,7 +31,7 @@ const TrackOrder = () => {
         try {
             // Clean the ID in case user pasted a long URL or something
             const cleanId = searchId.trim().replace('#', '');
-            const res = await fetch(`/api/orders/track/${cleanId}`);
+            const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/orders/track/${cleanId}`);
             if (!res.ok) throw new Error('Order not found. Please check your ID.');
             const data = await res.json();
             setOrderData(data);

@@ -222,7 +222,7 @@ const Checkout = () => {
         specialInstructions: ''
       };
 
-      const res = await fetch('/api/orders', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ const Checkout = () => {
           console.log('Payment Successful', response);
           
           // Update backend payment status without making the callback itself async
-          fetch(`/api/orders/${createdOrder._id}/pay`, {
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/orders/${createdOrder._id}/pay`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

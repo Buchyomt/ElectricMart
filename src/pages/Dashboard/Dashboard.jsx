@@ -87,7 +87,7 @@ const Dashboard = () => {
     const fetchOrders = async () => {
       if (!token) return;
       try {
-        const res = await fetch('/api/orders', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/orders', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -104,7 +104,7 @@ const Dashboard = () => {
       if (!token || !user) return;
       setLoadingProjects(true);
       try {
-        const res = await fetch('/api/projects', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/projects', {
           headers: { 'userid': user.id || user._id }
         });
         if (res.ok) {
@@ -135,7 +135,7 @@ const Dashboard = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/auth/profile', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ const Dashboard = () => {
       return;
     }
     try {
-      const res = await fetch('/api/auth/password', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ const Dashboard = () => {
 
     setUploadingAvatar(true);
     try {
-      const res = await fetch('/api/auth/avatar', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/avatar', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -219,7 +219,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (activeTab === 'support') {
       setLoadingTickets(true);
-      fetch('/api/tickets', { headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${import.meta.env.VITE_API_URL || ''}/api/tickets', { headers: { Authorization: `Bearer ${token}` } })
         .then(r => r.json()).then(data => { setTickets(Array.isArray(data) ? data : []); setLoadingTickets(false); })
         .catch(() => setLoadingTickets(false));
     }
@@ -228,7 +228,7 @@ const Dashboard = () => {
   const handleCreateTicket = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/tickets', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify(newTicketForm)
@@ -246,7 +246,7 @@ const Dashboard = () => {
   const handleTicketReply = async (ticketId) => {
     if (!replyText.trim()) return;
     try {
-      const res = await fetch(`/api/tickets/${ticketId}/reply`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/tickets/${ticketId}/reply`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ message: replyText })

@@ -40,7 +40,7 @@ const ProjectList = () => {
     setIsConverting(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/quotes/${quote._id}/convert`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes/${quote._id}/convert`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const ProjectList = () => {
     try {
       setLoadingQuotes(true);
       const token = localStorage.getItem('token');
-      const res = await fetch('/api/quotes', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -208,7 +208,7 @@ const ProjectList = () => {
         })
       };
 
-      const res = await fetch('/api/quotes', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/quotes', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -253,7 +253,7 @@ const ProjectList = () => {
     formData.append('file', file);
     try {
       const authToken = token || localStorage.getItem('token');
-      const res = await fetch('/api/upload/boq-csv', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/upload/boq-csv', {
         method: 'POST',
         headers: { Authorization: `Bearer ${authToken}` },
         body: formData

@@ -49,7 +49,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
+        const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/products');
         if (!response.ok) throw new Error('Network error');
         const data = await response.json();
         if (data && data.length > 0) {
@@ -69,7 +69,7 @@ const Home = () => {
     e.preventDefault();
     setNewsletterStatus('loading');
     try {
-      const res = await fetch('/api/newsletter/subscribe', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: newsletterEmail })

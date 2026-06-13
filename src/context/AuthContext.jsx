@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback(async (loginId, password) => {
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ loginId, password })
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = useCallback(async (name, email, password, phone) => {
     try {
-      const res = await fetch('/api/auth/register', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, phone })
@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyOTP = useCallback(async (userId, otp) => {
     try {
-      const res = await fetch('/api/auth/verify-otp', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, otp })
@@ -118,7 +118,7 @@ export const AuthProvider = ({ children }) => {
 
   const resendOTP = useCallback(async (userId) => {
     try {
-      const res = await fetch('/api/auth/resend-otp', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/resend-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId })
@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginWithOTPRequest = useCallback(async (email) => {
     try {
-      const res = await fetch('/api/auth/otp-login-request', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/otp-login-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -155,7 +155,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyLoginOTP = useCallback(async (userId, otp) => {
     try {
-      const res = await fetch('/api/auth/otp-login-verify', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/otp-login-verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, otp })
@@ -200,7 +200,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) return;
     const verifyToken = async () => {
       try {
-        const res = await fetch('/api/auth/me', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/me', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) {

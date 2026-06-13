@@ -35,7 +35,7 @@ const ProductDetails = () => {
       setError(null);
       
       try {
-        const response = await fetch(`/api/products/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/products/${id}`);
         if (response.ok) {
           const data = await response.json();
           if (data && (data._id || data.id)) {
