@@ -36,10 +36,13 @@ app.set("trust proxy", 1);
 // 1. Basic Middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"
-    ],
+    origin: function(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (origin.includes('localhost') || origin.includes('vercel.app') || origin === process.env.CLIENT_URL) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Fallback: Allow all for now to prevent CORS issues
+    },
     credentials: true,
   }),
 );
