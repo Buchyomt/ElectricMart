@@ -36,7 +36,10 @@ app.set("trust proxy", 1);
 // 1. Basic Middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"
+    ],
     credentials: true,
   }),
 );
@@ -75,7 +78,7 @@ app.get(
     console.log("[DEBUG] DIRECT Social Callback Received!");
     passport.authenticate("google", {
       session: false,
-      failureRedirect: `${process.env.CLIENT_URL || "http://localhost:5173"}/login?error=google_failed`,
+      failureRedirect: `${process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"}/login?error=google_failed`,
     })(req, res, next);
   },
   (req, res) => {
@@ -84,7 +87,7 @@ app.get(
       expiresIn: "7d",
     });
     res.redirect(
-      `${process.env.CLIENT_URL || "http://localhost:5173"}/auth/success?token=${token}&user=${encodeURIComponent(
+      `${process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"}/auth/success?token=${token}&user=${encodeURIComponent(
         JSON.stringify({
           id: req.user._id,
           name: req.user.name,

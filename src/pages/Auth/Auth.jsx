@@ -141,7 +141,7 @@ const Auth = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = '/api/auth/login_social';
+    window.location.href = `${import.meta.env.VITE_API_URL || ''}/api/auth/login_social`;
   };
 
   return (
