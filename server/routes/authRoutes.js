@@ -341,7 +341,7 @@ router.get('/promote-me', async (req, res) => {
     
     user.role = 'admin';
     await user.save();
-    res.send(`<h1>Success!</h1><p>User <b>${user.name}</b> is now an ADMIN. You can now close this tab and refresh ElectroMart.</p>`);
+    res.send(`<h1>Success!</h1><p>User <b>${user.name}</b> is now an ADMIN. You can now close this tab and refresh EllectricMart.</p>`);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

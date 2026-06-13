@@ -36,7 +36,7 @@ const Resources = () => {
       doc.setFontSize(26);
       doc.setTextColor(...primaryBlue);
       doc.setFont("helvetica", "bold");
-      doc.text("ELECTROMART PRO HUB", 20, 25);
+      doc.text("ELLECTRICMART PRO HUB", 20, 25);
       
       doc.setFontSize(10);
       doc.setTextColor(100, 116, 139);
@@ -61,14 +61,14 @@ const Resources = () => {
       doc.setTextColor(...darkSlate);
       doc.setFont("helvetica", "normal");
       
-      const content = `This document provides the latest information regarding ${title}.\nAs part of the ElectroMart Pro Hub initiative, we aim to provide\nup-to-date standards, calculations, and training materials for\nelectrical professionals in Nigeria.\n\n[ This is a dynamically generated placeholder document. ]\n[ The full technical text for "${title}" will be \n  inserted here once the administrative team uploads \n  the complete technical specifications. ]\n\nKey Areas Covered:\n- Safety Standards and Compliance\n- Installation Best Practices\n- Material Specifications\n- Troubleshooting and Maintenance\n\nFor immediate technical assistance, please use the \n"Book Consultation" button on the Pro Hub page to speak \nwith our licensed engineers.`;
+      const content = `This document provides the latest information regarding ${title}.\nAs part of the EllectricMart Pro Hub initiative, we aim to provide\nup-to-date standards, calculations, and training materials for\nelectrical professionals in Nigeria.\n\n[ This is a dynamically generated placeholder document. ]\n[ The full technical text for "${title}" will be \n  inserted here once the administrative team uploads \n  the complete technical specifications. ]\n\nKey Areas Covered:\n- Safety Standards and Compliance\n- Installation Best Practices\n- Material Specifications\n- Troubleshooting and Maintenance\n\nFor immediate technical assistance, please use the \n"Book Consultation" button on the Pro Hub page to speak \nwith our licensed engineers.`;
 
       doc.text(content, 20, 95, { maxWidth: 170, lineHeightFactor: 1.5 });
       
       // Footer
       doc.setFontSize(9);
       doc.setTextColor(148, 163, 184);
-      doc.text("© 2026 ElectroMart Nigeria. All rights reserved.", 105, 280, { align: "center" });
+      doc.text("© 2026 EllectricMart Nigeria. All rights reserved.", 105, 280, { align: "center" });
       
       // Save
       doc.save(`${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
@@ -178,7 +178,7 @@ const Resources = () => {
               <h2>Need Custom Engineering Advice?</h2>
               <p>Our licensed electrical engineers are available for site survey consultations and material specification advice.</p>
             </div>
-            <button className="btn btn-primary" onClick={() => window.open('https://wa.me/?text=Hello! I would like to book a consultation with a licensed ElectroMart engineer for my project.', '_blank')}>
+            <button className="btn btn-primary" onClick={() => window.open('https://wa.me/?text=Hello! I would like to book a consultation with a licensed EllectricMart engineer for my project.', '_blank')}>
               Book Consultation <PenTool size={18} />
             </button>
           </div>
@@ -196,7 +196,7 @@ const Resources = () => {
             </div>
             <div className="faq-item">
               <h4>Do you provide installation services?</h4>
-              <p>While we are primarily a distributor, we have a network of certified ElectroMart partners who can handle professional installation.</p>
+              <p>While we are primarily a distributor, we have a network of certified EllectricMart partners who can handle professional installation.</p>
             </div>
           </div>
         </section>

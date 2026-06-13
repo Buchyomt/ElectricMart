@@ -196,7 +196,7 @@ const AdminDashboard = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `electromart_orders_${new Date().toISOString().split('T')[0]}.csv`;
+      a.download = `ellectricmart_orders_${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -704,7 +704,7 @@ const AdminDashboard = () => {
     return `
       <div class="waybill-page">
         <div class="header">
-          <div><div class="logo">⚡ ELECTROMART</div><p>Professional Electrical Wholesaler</p></div>
+          <div><div class="logo">⚡ ELLECTRICMART</div><p>Professional Electrical Wholesaler</p></div>
           <div style="text-align:right"><h1>OFFICIAL WAYBILL</h1><p>Date: ${new Date().toLocaleDateString()}</p></div>
         </div>
         <div style="display:flex;justify-content:space-between;margin-bottom:30px">
@@ -754,7 +754,7 @@ const AdminDashboard = () => {
     const sections = selectedOrders.map(o => generateWaybillHTML(o)).join('<div style="page-break-after: always;"></div>');
 
     const fullHtml = `
-      <html><head><title>Bulk Waybills - ElectroMart</title>
+      <html><head><title>Bulk Waybills - EllectricMart</title>
       <style>
         body{font-family:sans-serif;padding:40px;color:#0f172a}
         .waybill-page { padding: 20px 0; }

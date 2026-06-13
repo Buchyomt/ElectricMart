@@ -17,7 +17,7 @@ const Support = () => {
   const faqs = [
     {
       q: "Are your electrical products genuine?",
-      a: "Yes. Every item on ElectroMart is sourced directly from authorized distributors. We provide manufacturer warranties for brands like Schneider, Nexans, and ABB."
+      a: "Yes. Every item on EllectricMart is sourced directly from authorized distributors. We provide manufacturer warranties for brands like Schneider, Nexans, and ABB."
     },
     {
       q: "How fast is delivery within Lagos?",
@@ -65,7 +65,7 @@ const Support = () => {
               <span className="link-text">+234 810 596 8503 ELECTRO</span>
             </div>
 
-            <div className="contact-card email" onClick={() => window.location.href = 'mailto:support@electromart.com'}>
+            <div className="contact-card email" onClick={() => window.location.href = 'mailto:support@ellectricmart.com'}>
               <div className="card-icon"><Mail size={24} /></div>
               <h3>Email Inquiries</h3>
               <p>For formal quotes and official docs.</p>

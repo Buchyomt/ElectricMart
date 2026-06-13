@@ -254,7 +254,7 @@ const Home = () => {
       <section className="how-it-works-section" style={{ padding: '80px 0', backgroundColor: '#f8fafc' }}>
         <div className="container">
           <div className="section-header" style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <h2 className="section-title" style={{ justifyContent: 'center' }}>How ElectroMart Works</h2>
+            <h2 className="section-title" style={{ justifyContent: 'center' }}>How EllectricMart Works</h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>Simple, transparent, and built for contractors</p>
           </div>
           

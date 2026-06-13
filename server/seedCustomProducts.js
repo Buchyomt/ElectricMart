@@ -1,5 +1,5 @@
 /**
- * ElectroMart Custom Product Seeder
+ * EllectricMart Custom Product Seeder
  * Run with: node seedCustomProducts.js
  * 
  * This script adds all custom products from the /public folder.

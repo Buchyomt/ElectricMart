@@ -1,5 +1,5 @@
 /**
- * ElectroMart - 12 Products Seeder (with real prices)
+ * EllectricMart - 12 Products Seeder (with real prices)
  * Run with: node seed12Products.js
  */
 

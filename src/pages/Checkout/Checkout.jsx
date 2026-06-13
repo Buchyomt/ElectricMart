@@ -72,7 +72,7 @@ const Checkout = () => {
     doc.setFontSize(26);
     doc.setTextColor(...primaryBlue);
     doc.setFont("helvetica", "bold");
-    doc.text("ELECTROMART", 20, 25);
+    doc.text("ELLECTRICMART", 20, 25);
     
     doc.setFontSize(10);
     doc.setTextColor(...grayText);
@@ -591,7 +591,7 @@ const Checkout = () => {
               <button 
                 className="btn-track-secondary"
                 onClick={() => {
-                  const message = `Hello! I just placed a professional order on ElectroMart⚡\n\nOrder ID: #${confirmedOrder.orderId}\nTotal: N${confirmedOrder.total.toLocaleString()}\n\nYou can track my material dispatch here: ${window.location.origin}/track/${confirmedOrder.orderId}`;
+                  const message = `Hello! I just placed a professional order on EllectricMart⚡\n\nOrder ID: #${confirmedOrder.orderId}\nTotal: N${confirmedOrder.total.toLocaleString()}\n\nYou can track my material dispatch here: ${window.location.origin}/track/${confirmedOrder.orderId}`;
                   window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
                 }}
               >

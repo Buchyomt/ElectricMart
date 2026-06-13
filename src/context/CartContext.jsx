@@ -11,7 +11,7 @@ export const useCart = () => {
   return context;
 };
 
-const CART_STORAGE_KEY = 'electromart_cart';
+const CART_STORAGE_KEY = 'ellectricmart_cart';
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);

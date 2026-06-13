@@ -21,14 +21,14 @@ const generateOTP = () => {
 
 const sendOTPEmail = async (email, otp, name) => {
   const mailOptions = {
-    from: `"ElectroMart" <${process.env.EMAIL_USER}>`,
+    from: `"EllectricMart" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: 'Your ElectroMart Verification Code',
+    subject: 'Your EllectricMart Verification Code',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; background: #0f172a; color: #fff; border-radius: 12px; padding: 32px;">
         <div style="text-align: center; margin-bottom: 24px;">
           <span style="font-size: 32px;">⚡</span>
-          <h1 style="color: #3b82f6; margin: 8px 0;">ElectroMart</h1>
+          <h1 style="color: #3b82f6; margin: 8px 0;">EllectricMart</h1>
         </div>
         <h2 style="font-weight: 600;">Hi ${name},</h2>
         <p style="color: #94a3b8;">Use the code below to verify your account. It expires in <strong>10 minutes</strong>.</p>
