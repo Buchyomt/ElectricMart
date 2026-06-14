@@ -1190,6 +1190,34 @@
     gap: 1rem;
   }
 
+  /* Active Orders fixes for mobile */
+  .active-orders-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .active-orders-grid .order-card-wide {
+    min-width: 85vw;
+    scroll-snap-align: center;
+  }
+
+  .order-card-wide {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .order-totals {
+    text-align: left;
+    border-left: none;
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
   /* Tables become scrollable */
   .table-responsive,
   .db-card .table-responsive {

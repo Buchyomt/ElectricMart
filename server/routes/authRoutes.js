@@ -94,12 +94,13 @@ router.post('/register', async (req, res) => {
       await sendOTPEmail(email, otp, name);
       console.log(`✅ Verification email sent to ${email}`);
     } catch (emailErr) {
-      console.error('❌ Failed to send verification email:', emailErr.message);
-      console.log(`[DEV] OTP for ${email}: ${otp}`);
+      console.error('Failed to send verification email:', emailErr.message);
+      console.log(`[DEV] OTP Code for ${email}: ${otp}`);
+      return res.status(500).json({ message: 'Error: Failed to send OTP to your email. Check your internet connection or contact support.' });
     }
 
     res.status(201).json({
-      message: 'Registration successful. Please check your email.',
+      message: 'Registration successful! Please check your email for the OTP to verify your account.',
       userId: user._id,
     });
   } catch (err) {
@@ -182,7 +183,9 @@ router.post('/otp-login-request', async (req, res) => {
     try {
       await sendOTPEmail(email, otp, user.name);
     } catch (emailErr) {
+      console.error('Failed to send login email:', emailErr.message);
       console.log(`[DEV] OTP Login Code for ${email}: ${otp}`);
+      return res.status(500).json({ message: 'Error: Failed to send login code to your email. Check your internet connection or contact support.' });
     }
 
     res.json({ message: 'Login code sent to your email', userId: user._id });
