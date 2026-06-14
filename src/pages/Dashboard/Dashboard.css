@@ -18,6 +18,9 @@
   padding: 3rem 2rem 6rem 2rem;
   padding-top: calc(3rem + 140px); /* account for fixed header */
   font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden; /* prevent horizontal scroll / blank space */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dashboard-container {
@@ -27,6 +30,8 @@
   grid-template-columns: 280px 1fr;
   gap: 2.5rem;
   align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* --- Sidebar Styling --- */

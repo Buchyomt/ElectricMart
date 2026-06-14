@@ -15,7 +15,7 @@
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-  padding-top: 80px; /* account for fixed header */
+  padding-top: 140px; /* desktop: top bar + main + nav */
 }
 
 /* Premium Breadcrumbs */
@@ -486,7 +486,7 @@
 
 @media (max-width: 768px) {
   .auth-page-wrapper {
-    padding-top: 70px;
+    padding-top: 110px; /* mobile: search wraps so main is taller + nav */
   }
   .auth-breadcrumb-container {
     padding: 1rem;
@@ -504,5 +504,11 @@
   .auth-subtitle {
     font-size: 0.95rem;
     margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page-wrapper {
+    padding-top: 100px;
   }
 }

@@ -426,6 +426,9 @@
 }
 
 @media (max-width: 768px) {
+  .header-top {
+    display: none; /* hide top info bar on mobile to reduce header height */
+  }
   .header-top-content {
     flex-direction: column;
     gap: var(--space-2);
@@ -439,5 +442,28 @@
   }
   .nav-item {
     white-space: nowrap;
+  }
+  /* Hide location on mobile to save space */
+  .action-item.location {
+    display: none;
+  }
+  /* Compact search bar on mobile */
+  .search-bar {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+    margin-top: var(--space-2);
+  }
+  .header-main {
+    padding: var(--space-2) 0;
+  }
+  .brand h1 {
+    font-size: 1.2rem;
+  }
+  .header-actions {
+    gap: var(--space-3);
+  }
+  .action-label {
+    display: none;
   }
 }
