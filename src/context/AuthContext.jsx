@@ -35,11 +35,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback(async (loginId, password) => {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ loginId, password })
+        body: JSON.stringify({ loginId, password }),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       
       const contentType = res.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
@@ -62,6 +67,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(data.user));
       return data;
     } catch (err) {
+      if (err.name === 'AbortError') {
+        throw new Error('The server is waking up — please try again in 30 seconds.');
+      }
       throw err;
     }
   }, []);
@@ -148,15 +156,22 @@ export const AuthProvider = ({ children }) => {
 
   const loginWithOTPRequest = useCallback(async (email) => {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/otp-login-request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'OTP request failed');
       return data;
     } catch (err) {
+      if (err.name === 'AbortError') {
+        throw new Error('The server is waking up — please try again in 30 seconds.');
+      }
       throw err;
     }
   }, []);

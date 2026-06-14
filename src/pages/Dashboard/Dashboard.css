@@ -16,6 +16,7 @@
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   min-height: 100vh;
   padding: 3rem 2rem 6rem 2rem;
+  padding-top: calc(3rem + 140px); /* account for fixed header */
   font-family: 'Inter', -apple-system, sans-serif;
 }
 
@@ -1088,4 +1089,148 @@
 
 .btn-icon-danger:hover svg {
   fill: white;
+}
+
+/* ─── Mobile Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    grid-template-columns: 240px 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: calc(1.5rem + 80px) 1rem 4rem 1rem;
+  }
+
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Sidebar becomes a horizontal top card on mobile */
+  .db-sidebar {
+    position: static;
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .db-profile {
+    text-align: left;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .db-profile::after {
+    display: none;
+  }
+
+  .profile-img {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    border-radius: 16px;
+    flex-shrink: 0;
+  }
+
+  .profile-initials {
+    font-size: 1.4rem;
+  }
+
+  .db-profile h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .db-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .db-nav-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.6rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    justify-content: center;
+  }
+
+  .db-logout-btn {
+    width: auto;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    margin-top: 0;
+  }
+
+  /* Stats grid stacks on mobile */
+  .db-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem;
+  }
+
+  /* Tables become scrollable */
+  .table-responsive,
+  .db-card .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .db-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .db-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* Tab list on mobile wraps nicely */
+  .db-tab-list {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .db-tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .db-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .db-sidebar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .db-profile {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .db-nav-item {
+    justify-content: flex-start;
+  }
 }
