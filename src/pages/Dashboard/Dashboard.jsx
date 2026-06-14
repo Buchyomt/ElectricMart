@@ -401,12 +401,12 @@ const Dashboard = () => {
             return (
               <div key={order._id} className="order-card-wide" style={{ display: 'block', padding: '2rem' }}>
                 {/* Header Row */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                   <div>
                     <h3 style={{ margin: 0, fontWeight: '800', fontSize: '1.1rem', color: '#0f172a' }}>Order #{order._id.slice(-6).toUpperCase()}</h3>
                     <span style={{ fontSize: '0.85rem', color: '#64748b' }}>Placed on {formatDate(order.createdAt)} · {order.items.length} item{order.items.length !== 1 ? 's' : ''}</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '1.25rem', fontWeight: '800', color: '#3b82f6' }}>{formatCurrency(order.total)}</span>
                     <span className={`status-pill ${order.orderStatus === 'cancelled' ? 'cancelled' : order.orderStatus === 'delivered' ? 'delivered' : 'shipping'}`}>{order.orderStatus}</span>
                     <button className="view-all-btn" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0.4rem 0.75rem' }} onClick={() => setSelectedOrder(order)}><Eye size={14} /> Details</button>
@@ -685,7 +685,7 @@ const Dashboard = () => {
                     </tr>
                   ))}
                   {projects.length === 0 && !loadingProjects && (
-                    <tr><td colSpan="5" className="text-center py-10">No saved projects found. Try saving a project list!</td></tr>
+                    <tr><td colSpan="5" style={{ textAlign: 'center', padding: '2rem 1rem', whiteSpace: 'normal', lineHeight: '1.5' }}>No saved projects found. Try saving a project list!</td></tr>
                   )}
                   {loadingProjects && (
                     <tr><td colSpan="5" className="text-center py-10">Loading project data...</td></tr>
