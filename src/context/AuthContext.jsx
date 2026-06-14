@@ -68,11 +68,16 @@ export const AuthProvider = ({ children }) => {
 
   const register = useCallback(async (name, email, password, phone) => {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, phone })
+        body: JSON.stringify({ name, email, password, phone }),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
 
       const contentType = res.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
@@ -85,6 +90,9 @@ export const AuthProvider = ({ children }) => {
       if (!res.ok) throw new Error(data.message || 'Registration failed');
       return data;
     } catch (err) {
+      if (err.name === 'AbortError') {
+        throw new Error('The server is waking up — please try again in 30 seconds.');
+      }
       throw err;
     }
   }, []);

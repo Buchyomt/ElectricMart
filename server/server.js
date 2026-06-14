@@ -79,18 +79,20 @@ app.get(
   "/api/auth/callback_social",
   (req, res, next) => {
     console.log("[DEBUG] DIRECT Social Callback Received!");
+    const clientBase = (process.env.CLIENT_URL || "https://electric-mart-snowy.vercel.app").replace(/\/$/, '');
     passport.authenticate("google", {
       session: false,
-      failureRedirect: `${process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"}/login?error=google_failed`,
+      failureRedirect: `${clientBase}/login?error=google_failed`,
     })(req, res, next);
   },
   (req, res) => {
     const jwt = require("jsonwebtoken");
+    const clientBase = (process.env.CLIENT_URL || "https://electric-mart-snowy.vercel.app").replace(/\/$/, '');
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     res.redirect(
-      `${process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : "http://localhost:5173"}/auth/success?token=${token}&user=${encodeURIComponent(
+      `${clientBase}/auth/success?token=${token}&user=${encodeURIComponent(
         JSON.stringify({
           id: req.user._id,
           name: req.user.name,

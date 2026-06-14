@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 140px; /* account for fixed header */
 }
 
 .shop-page .container.shop-layout {
@@ -370,5 +371,8 @@
 @media (max-width: 480px) {
   .shop-grid {
     grid-template-columns: 1fr;
+  }
+  .shop-page {
+    padding-top: 80px;
   }
 }

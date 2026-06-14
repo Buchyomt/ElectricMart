@@ -15,6 +15,7 @@
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
+  padding-top: 80px; /* account for fixed header */
 }
 
 /* Premium Breadcrumbs */
@@ -480,5 +481,28 @@
   .auth-container {
     margin: 1rem auto;
     min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-page-wrapper {
+    padding-top: 70px;
+  }
+  .auth-breadcrumb-container {
+    padding: 1rem;
+  }
+  .auth-right {
+    padding: 2rem 1.25rem;
+  }
+  .auth-tabs {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .auth-form-content h2 {
+    font-size: 1.5rem;
+  }
+  .auth-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
   }
 }
