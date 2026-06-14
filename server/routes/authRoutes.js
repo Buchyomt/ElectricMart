@@ -159,6 +159,7 @@ router.post('/resend-otp', async (req, res) => {
     } catch (emailErr) {
       console.error('❌ Failed to resend verification email:', emailErr.message);
       console.log(`[DEV] RESENT OTP for ${user.email}: ${otp}`);
+      return res.status(500).json({ message: 'Error: Failed to resend OTP to your email. Check your internet connection or contact support.' });
     }
 
     res.json({ message: 'OTP resent successfully' });

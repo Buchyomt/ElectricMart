@@ -670,28 +670,35 @@ const Dashboard = () => {
               <button className="btn btn-outline-primary btn-sm" onClick={() => navigate('/quote')}>+ New Project</button>
             </div>
             <div className="db-table-card">
-              <table className="db-data-table">
-                <thead>
-                  <tr><th>Project Name</th><th>Location</th><th>Status</th><th>Items</th><th>Total</th></tr>
-                </thead>
-                <tbody>
-                  {projects.map(p => (
-                    <tr key={p._id}>
-                      <td className="font-bold">{p.name}</td>
-                      <td>{p.location}</td>
-                      <td><span className={`status-pill ${p.status?.toLowerCase().replace(' ', '-') || 'pending'}`}>{p.status || 'Active'}</span></td>
-                      <td>{p.items?.length || 0}</td>
-                      <td className="font-bold">₦{(p.items || []).reduce((acc, i) => acc + (i.price * i.quantity), 0).toLocaleString()}</td>
-                    </tr>
-                  ))}
-                  {projects.length === 0 && !loadingProjects && (
-                    <tr><td colSpan="5" style={{ textAlign: 'center', padding: '2rem 1rem', whiteSpace: 'normal', lineHeight: '1.5' }}>No saved projects found. Try saving a project list!</td></tr>
-                  )}
-                  {loadingProjects && (
-                    <tr><td colSpan="5" className="text-center py-10">Loading project data...</td></tr>
-                  )}
-                </tbody>
-              </table>
+              {projects.length === 0 && !loadingProjects ? (
+                <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+                  <ClipboardList size={48} style={{ color: '#cbd5e1', marginBottom: '1rem' }} />
+                  <h3 style={{ marginBottom: '0.5rem', color: '#0f172a' }}>No saved projects found</h3>
+                  <p style={{ color: '#64748b' }}>Start an estimator session to save your project lists!</p>
+                </div>
+              ) : (
+                <div className="table-responsive">
+                  <table className="db-data-table">
+                    <thead>
+                      <tr><th>Project Name</th><th>Location</th><th>Status</th><th>Items</th><th>Total</th></tr>
+                    </thead>
+                    <tbody>
+                      {projects.map(p => (
+                        <tr key={p._id}>
+                          <td className="font-bold">{p.name}</td>
+                          <td>{p.location}</td>
+                          <td><span className={`status-pill ${p.status?.toLowerCase().replace(' ', '-') || 'pending'}`}>{p.status || 'Active'}</span></td>
+                          <td>{p.items?.length || 0}</td>
+                          <td className="font-bold">₦{(p.items || []).reduce((acc, i) => acc + (i.price * i.quantity), 0).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                      {loadingProjects && (
+                        <tr><td colSpan="5" className="text-center py-10">Loading project data...</td></tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         );
