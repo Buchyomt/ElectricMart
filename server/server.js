@@ -6,8 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 require("dotenv").config();
 
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
-console.log("🌐 Using DNS resolvers: 1.1.1.1, 8.8.8.8");
+// Use default system DNS resolvers
 
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -131,6 +130,7 @@ mongoose
   .connect(MONGO_URI, {
     serverSelectionTimeoutMS: 10000,
     connectTimeoutMS: 10000,
+    bufferCommands: false
   })
   .then(() => {
     console.log("✅ Connected to MongoDB Atlas");
