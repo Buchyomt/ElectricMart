@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(async (loginId, password) => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000);
+      const timeoutId = setTimeout(() => controller.abort(), 50000);
 
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/login`, {
         method: 'POST',
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(async (name, email, password, phone) => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000);
+      const timeoutId = setTimeout(() => controller.abort(), 50000);
 
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/register`, {
         method: 'POST',
@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithOTPRequest = useCallback(async (email) => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 120000);
+      const timeoutId = setTimeout(() => controller.abort(), 50000);
       const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/auth/otp-login-request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
