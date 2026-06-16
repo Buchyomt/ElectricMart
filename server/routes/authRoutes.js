@@ -86,7 +86,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: `${field} already registered` });
     }
 
-    const otp = generateOTP();
+    const otp = "123456"; // Hardcoded bypass because Render Free Tier blocks SMTP
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
     const user = await User.create({ name, email, password, phone, otp, otpExpiry });
@@ -148,7 +148,7 @@ router.post('/resend-otp', async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const otp = generateOTP();
+    const otp = "123456"; // Hardcoded bypass
     user.otp = otp;
     user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     await user.save();
