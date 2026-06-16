@@ -2,14 +2,17 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // upgrade later with STARTTLS
+  port: 465,
+  secure: true, // Use implicit TLS
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
   logger: true, 
-  debug: true,  
+  debug: true,
+  connectionTimeout: 10000, // 10 second timeout
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
   tls: {
     rejectUnauthorized: false // Bypass local certificate issues
   }
