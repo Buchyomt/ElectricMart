@@ -974,3 +974,5 @@
 
 
 @media (max-width: 640px) { .checkout-page { padding-top: 3rem; } }
+
+@media (max-width: 640px) { .stepper { justify-content: flex-start; overflow-x: auto; padding-bottom: 0.5rem; } .step { min-width: 60px; } .step-name { font-size: 0.7rem; } }
