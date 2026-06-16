@@ -16,14 +16,24 @@ const promoteUser = async () => {
             process.exit(0);
         }
 
-        console.log('Recent Users:');
-        users.forEach((u, i) => console.log(`${i+1}. ${u.name} (${u.email}) - Role: ${u.role}`));
+        const emailToPromote = process.argv[2];
+        
+        if (!emailToPromote) {
+            console.log('Please provide an email address as an argument.');
+            process.exit(1);
+        }
 
-        const latestUser = users[0];
-        latestUser.role = 'admin';
-        await latestUser.save();
+        const userToPromote = await User.findOne({ email: emailToPromote.toLowerCase() });
+        
+        if (!userToPromote) {
+            console.log(`No user found with email: ${emailToPromote}`);
+            process.exit(1);
+        }
 
-        console.log(`\n✅ SUCCESS: User "${latestUser.name}" (${latestUser.email}) has been promoted to ADMIN.`);
+        userToPromote.role = 'admin';
+        await userToPromote.save();
+
+        console.log(`\n✅ SUCCESS: User "${userToPromote.name}" (${userToPromote.email}) has been promoted to ADMIN.`);
         process.exit(0);
     } catch (err) {
         console.error('Promotion error:', err);
