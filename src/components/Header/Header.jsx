@@ -172,7 +172,11 @@ const Header = () => {
               </div>
             ) : (
               <div className="action-item auth">
-                <Link to="/login" className="auth-link" style={{ textDecoration: 'none', color: 'inherit' }}>Sign In / Register</Link>
+                <User size={20} />
+                <div className="action-text">
+                  <span className="action-label">Account</span>
+                  <Link to="/login" className="action-value auth-link" style={{ textDecoration: 'none', color: 'inherit' }}>Sign In / Register</Link>
+                </div>
               </div>
             )}
           </div>

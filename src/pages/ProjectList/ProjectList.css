@@ -181,8 +181,15 @@
   margin-bottom: 2rem;
 }
 
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .pl-table {
   width: 100%;
+  min-width: 800px; /* Ensure table keeps format on scroll */
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -594,6 +601,9 @@
   .pl-form-row { grid-template-columns: 1fr; }
   .pl-sidebar { grid-template-columns: 1fr; }
   .total-row, .grand-total-row { max-width: 100%; }
+  .items-header, .card-header-flex { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .items-header button { width: 100%; justify-content: center; }
+  .pl-card { padding: 1.5rem; }
 }
 
 /* --- Custom Modal Overlay --- */
