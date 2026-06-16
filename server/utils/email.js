@@ -12,10 +12,7 @@ const transporter = nodemailer.createTransport({
   debug: true,  
   tls: {
     rejectUnauthorized: false // Bypass local certificate issues
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 5000,
-  socketTimeout: 15000
+  }
 });
 
 const generateOTP = () => {
