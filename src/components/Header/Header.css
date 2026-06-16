@@ -428,7 +428,7 @@
 @media (max-width: 768px) {
   /* Increase padding on mobile to account for the restored header items */
   :root {
-    --header-height: 220px;
+    --header-height: 280px;
   }
   
   .header-top {
