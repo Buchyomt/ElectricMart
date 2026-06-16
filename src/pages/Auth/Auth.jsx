@@ -102,7 +102,12 @@ const Auth = () => {
         setIsOtpMode(true);
       }
     } catch (err) {
-      setError(err.message || 'Authentication failed');
+      if (err.status === 403 && err.data && err.data.userId) {
+        setUserId(err.data.userId);
+        setIsOtpMode(true);
+      } else {
+        setError(err.message || 'Authentication failed');
+      }
     } finally {
       setLoading(false);
     }
