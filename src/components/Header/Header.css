@@ -367,10 +367,6 @@
   transition: background 0.4s ease;
 }
 
-.header.scrolled .header-nav {
-  background: transparent;
-}
-
 .nav-content {
   display: flex;
   gap: var(--space-8);

@@ -968,3 +968,9 @@
 }
 
 
+
+/* Grid Blowout Fix */
+.checkout-grid, .checkout-main, .checkout-sidebar, .co-card { min-width: 0; }
+
+
+@media (max-width: 640px) { .checkout-page { padding-top: 3rem; } }
