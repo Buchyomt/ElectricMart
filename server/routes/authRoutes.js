@@ -174,18 +174,19 @@ router.post('/otp-login-request', async (req, res) => {
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) return res.status(404).json({ message: 'No account found with this email' });
 
-    const otp = "123456"; // Hardcoded for testing since Render blocks SMTP port 465
+    const otp = generateOTP();
     user.otp = otp;
     user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     await user.save();
 
-    // Fire and forget email (don't await) so it doesn't hang the request
-    sendOTPEmail(email, otp, user.name).catch((emailErr) => {
+    try {
+      await sendOTPEmail(email, otp, user.name);
+    } catch (emailErr) {
       console.error('Failed to send login email:', emailErr.message);
       console.log(`[DEV] OTP Login Code for ${email}: ${otp}`);
-    });
+    }
 
-    res.json({ message: 'Check your email. (TESTING BYPASS: Use code 123456)', userId: user._id });
+    res.json({ message: 'Login code sent to your email', userId: user._id });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
