@@ -4,7 +4,6 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 140px; /* desktop: top bar + main + nav */
 }
 
 .shop-page .container.shop-layout {

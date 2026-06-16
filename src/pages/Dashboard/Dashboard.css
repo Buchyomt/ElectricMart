@@ -16,7 +16,6 @@
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   min-height: 100vh;
   padding: 3rem 2rem 6rem 2rem;
-  padding-top: calc(3rem + 140px); /* account for fixed header */
   font-family: 'Inter', -apple-system, sans-serif;
   overflow-x: hidden; /* prevent horizontal scroll / blank space */
   width: 100%;

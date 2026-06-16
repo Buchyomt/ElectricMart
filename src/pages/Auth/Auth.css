@@ -15,7 +15,6 @@
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-  padding-top: 140px; /* desktop: top bar + main + nav */
 }
 
 /* Premium Breadcrumbs */

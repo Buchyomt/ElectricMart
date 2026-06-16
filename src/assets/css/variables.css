@@ -62,7 +62,7 @@
 
 /* Global Fix for Fixed Header */
 .app-container {
-  padding-top: 145px;
+  /* padding-top removed because header is now position: sticky */
 }
 
 /* Remove padding for admin layout which has no main header */
