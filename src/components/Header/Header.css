@@ -1,16 +1,15 @@
 .header {
   width: 100%;
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
   z-index: 10000;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background: transparent;
 }
 
-/* Add padding to the top of the body to account for fixed header */
+/* No padding needed for sticky header */
 :root {
-  --header-height: 140px;
+  --header-height: auto;
 }
 
 .header.scrolled {
@@ -426,8 +425,9 @@
 }
 
 @media (max-width: 768px) {
+  /* Restored top bar on mobile */
   .header-top {
-    display: none; /* hide top info bar on mobile to reduce header height */
+    display: block;
   }
   .header-top-content {
     flex-direction: column;
