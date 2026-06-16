@@ -81,7 +81,8 @@ router.post('/register', async (req, res) => {
 
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
-      const field = existingUser.email === email ? 'Email' : 'Phone number';
+      const isEmailMatch = existingUser.email === email.toLowerCase();
+      const field = isEmailMatch ? 'Email' : 'Phone number';
       return res.status(400).json({ message: `${field} already registered` });
     }
 
