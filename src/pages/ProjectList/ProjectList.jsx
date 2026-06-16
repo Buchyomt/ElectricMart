@@ -317,7 +317,7 @@ const ProjectList = () => {
           </div>
         </header>
 
-        <div className="pl-tabs" style={{ display: 'flex', gap: '20px', marginBottom: '24px', borderBottom: '1px solid #e2e8f0', paddingBottom: '10px' }}>
+        <div className="pl-tabs" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginBottom: '24px', borderBottom: '1px solid #e2e8f0', paddingBottom: '10px' }}>
           <button 
             className={`tab-btn ${activeTab === 'current' ? 'active' : ''}`}
             onClick={() => setActiveTab('current')}
@@ -644,44 +644,47 @@ const ProjectList = () => {
                       {/* Items Preview Table Accordion */}
                       {isExpanded && (
                         <div className="quote-items-preview">
-                          <table className="preview-items-table">
-                            <thead>
-                              <tr>
-                                <th>Product Details</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th style={{ textAlign: 'right' }}>Subtotal</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {(quote.adminResponse?.adjustedItems?.length > 0 
-                                ? quote.adminResponse.adjustedItems 
-                                : quote.items
-                              ).map((item, idx) => (
-                                <tr key={idx}>
-                                  <td>
-                                    <div className="preview-item-meta">
-                                      <img 
-                                        src={item.image ? (item.image.startsWith('http') ? item.image : `/${item.image}`) : '/placeholder.png'} 
-                                        className="preview-item-thumb" 
-                                        alt={item.name} 
-                                        onError={(e) => { e.target.src = '/placeholder.png'; }}
-                                      />
-                                      <div className="preview-item-desc">
-                                        <span className="preview-item-name">{item.name}</span>
-                                        <span className="preview-item-brand">{item.brand || 'Generic'}</span>
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td>{item.quantity}</td>
-                                  <td>₦{(item.unitPrice || item.price || 0).toLocaleString()}</td>
-                                  <td style={{ textAlign: 'right', fontWeight: '700' }}>
-                                    ₦{((item.unitPrice || item.price || 0) * item.quantity).toLocaleString()}
-                                  </td>
+                          <div className="table-responsive">
+                            <table className="preview-items-table" style={{ width: '100%', minWidth: '600px' }}>
+                              <thead>
+                                <tr>
+                                  <th>Product Details</th>
+                                  <th>Quantity</th>
+                                  <th>Unit Price</th>
+                                  <th style={{ textAlign: 'right' }}>Subtotal</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody>
+                                {(quote.adminResponse?.adjustedItems?.length > 0 
+                                  ? quote.adminResponse.adjustedItems 
+                                  : quote.items
+                                ).map((item, idx) => (
+                                  <tr key={idx}>
+                                    <td>
+                                      <div className="preview-item-meta" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <img 
+                                          src={item.image ? (item.image.startsWith('http') ? item.image : `/${item.image}`) : '/placeholder.png'} 
+                                          className="preview-item-thumb" 
+                                          alt={item.name} 
+                                          style={{ width: '40px', height: '40px', borderRadius: '6px', objectFit: 'cover' }}
+                                          onError={(e) => { e.target.src = '/placeholder.png'; }}
+                                        />
+                                        <div className="preview-item-desc" style={{ display: 'flex', flexDirection: 'column' }}>
+                                          <span className="preview-item-name" style={{ fontWeight: '600', color: '#0f172a' }}>{item.name}</span>
+                                          <span className="preview-item-brand" style={{ fontSize: '0.8rem', color: '#64748b' }}>{item.brand || 'Generic'}</span>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td style={{ verticalAlign: 'middle' }}>{item.quantity}</td>
+                                    <td style={{ verticalAlign: 'middle' }}>₦{(item.unitPrice || item.price || 0).toLocaleString()}</td>
+                                    <td style={{ textAlign: 'right', fontWeight: '700', verticalAlign: 'middle' }}>
+                                      ₦{((item.unitPrice || item.price || 0) * item.quantity).toLocaleString()}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       )}
 

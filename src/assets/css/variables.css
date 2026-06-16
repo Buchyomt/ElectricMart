@@ -62,7 +62,9 @@
 
 /* Global Fix for Fixed Header */
 .app-container {
-  /* padding-top removed because header is now position: sticky */
+  padding-top: var(--header-height, 140px); /* Offset the fixed header without using sticky */
+  overflow-x: hidden; /* Foolproof way to prevent ANY horizontal stretching on mobile */
+  width: 100%;
 }
 
 /* Remove padding for admin layout which has no main header */

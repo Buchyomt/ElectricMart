@@ -1,15 +1,16 @@
 .header {
   width: 100%;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 10000;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background: transparent;
 }
 
-/* No padding needed for sticky header */
+/* Using fixed header again to prevent scroll jumping glitches */
 :root {
-  --header-height: auto;
+  --header-height: 140px;
 }
 
 .header.scrolled {
@@ -425,7 +426,11 @@
 }
 
 @media (max-width: 768px) {
-  /* Restored top bar on mobile */
+  /* Increase padding on mobile to account for the restored header items */
+  :root {
+    --header-height: 220px;
+  }
+  
   .header-top {
     display: block;
   }
