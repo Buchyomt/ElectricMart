@@ -601,6 +601,8 @@
 }
 
 @media (max-width: 640px) {
+  .pl-table, .pl-table tbody, .pl-table tr, .pl-table td { display: block; width: 100%; min-width: 0 !important; }
+  .pl-table thead { display: none; }
   .pl-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
   .pl-form-row { grid-template-columns: 1fr; }
   .pl-sidebar { grid-template-columns: 1fr; }
@@ -1039,18 +1041,32 @@
 }
 
 
- . p l - c o n t a i n e r   { 
-     m a x - w i d t h :   1 4 0 0 p x ; 
-     m a r g i n :   0   a u t o ; 
-     p a d d i n g :   0   2 r e m ; 
-     w i d t h :   1 0 0 % ; 
-     b o x - s i z i n g :   b o r d e r - b o x ; 
- } 
- 
- @ m e d i a   ( m a x - w i d t h :   6 4 0 p x )   { 
-     . p l - c o n t a i n e r   { 
-         p a d d i n g :   0   1 r e m ; 
-         o v e r f l o w - x :   h i d d e n ; 
-     } 
- }  
- 
+.pl-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .pl-container {
+    padding: 0 1rem;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 640px) {
+  .pl-table, .pl-table tbody, .pl-table tr, .pl-table td { display: block; width: 100%; }
+  .pl-table thead { display: none; }
+  .pl-table tr { background: white; border: 1px solid var(--pl-border); border-radius: 16px; margin-bottom: 1rem; padding: 1rem; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+  .pl-table td { border: none; padding: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; text-align: right; border-bottom: 1px dashed #e2e8f0; }
+  .pl-table td:last-child { border-bottom: none; }
+  .pl-table td::before { content: attr(data-label); font-weight: 700; color: #64748b; text-transform: uppercase; font-size: 0.75rem; margin-right: 1rem; }
+  .pl-table td:nth-child(1) { justify-content: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 0.5rem; }
+  .pl-table td:nth-child(1)::before { content: none; }
+  .pl-table td:nth-child(2) { justify-content: flex-start; text-align: left; }
+  .pl-table td:nth-child(2)::before { content: none; }
+  .pl-table td[data-label="Remove"] { position: absolute; top: 1rem; right: 1rem; width: auto; padding: 0; border: none; }
+  .pl-table td[data-label="Remove"]::before { content: none; }
+}

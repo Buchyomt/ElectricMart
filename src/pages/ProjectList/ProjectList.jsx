@@ -459,28 +459,28 @@ const ProjectList = () => {
                   <tbody>
                     {items.map(item => (
                       <tr key={item._id || item.id}>
-                        <td>
+                        <td data-label="Item">
                           <div className="pl-item-img">
                             <img src={item.image?.startsWith('http') ? item.image : `/${item.image}`} alt={item.name} />
                           </div>
                         </td>
-                        <td>
+                        <td data-label="Details">
                           <div className="pl-item-info">
                             <strong>{item.name}</strong>
                             <span>SKU: {item.sku || 'N/A'}</span>
                           </div>
                         </td>
-                        <td><span className="pl-brand-badge">{item.brand}</span></td>
-                        <td className="text-right" style={{ color: '#475569', fontWeight: '600' }}>₦{item.price.toLocaleString()}</td>
-                        <td>
+                        <td data-label="Brand"><span className="pl-brand-badge">{item.brand}</span></td>
+                        <td data-label="Unit Price" className="text-right" style={{ color: '#475569', fontWeight: '600' }}>₦{item.price.toLocaleString()}</td>
+                        <td data-label="Quantity">
                           <div className="pl-qty-control" style={{ margin: '0 auto' }}>
                             <button onClick={() => updateQty(item._id || item.id, item.quantity - 1)}><Minus size={14} /></button>
                             <span>{item.quantity}</span>
                             <button onClick={() => updateQty(item._id || item.id, item.quantity + 1)}><Plus size={14} /></button>
                           </div>
                         </td>
-                        <td className="text-right font-bold" style={{ color: '#0f172a', fontSize: '1.05rem' }}>₦{(item.price * item.quantity).toLocaleString()}</td>
-                        <td className="text-right">
+                        <td data-label="Total" className="text-right font-bold" style={{ color: '#0f172a', fontSize: '1.05rem' }}>₦{(item.price * item.quantity).toLocaleString()}</td>
+                        <td data-label="Remove" className="text-right">
                           <button className="pl-remove-btn" onClick={() => removeFromProject(item._id || item.id)}>
                             <Trash2 size={16} />
                           </button>
@@ -645,7 +645,7 @@ const ProjectList = () => {
                       {isExpanded && (
                         <div className="quote-items-preview">
                           <div className="table-responsive">
-                            <table className="preview-items-table" style={{ width: '100%', minWidth: '600px' }}>
+                            <table className="preview-items-table" style={{ width: '100%' }}>
                               <thead>
                                 <tr>
                                   <th>Product Details</th>
@@ -660,7 +660,7 @@ const ProjectList = () => {
                                   : quote.items
                                 ).map((item, idx) => (
                                   <tr key={idx}>
-                                    <td>
+                                    <td data-label="Details">
                                       <div className="preview-item-meta" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                         <img 
                                           src={item.image ? (item.image.startsWith('http') ? item.image : `/${item.image}`) : '/placeholder.png'} 
@@ -675,9 +675,9 @@ const ProjectList = () => {
                                         </div>
                                       </div>
                                     </td>
-                                    <td style={{ verticalAlign: 'middle' }}>{item.quantity}</td>
-                                    <td style={{ verticalAlign: 'middle' }}>₦{(item.unitPrice || item.price || 0).toLocaleString()}</td>
-                                    <td style={{ textAlign: 'right', fontWeight: '700', verticalAlign: 'middle' }}>
+                                    <td data-label="Quantity" style={{ verticalAlign: 'middle' }}>{item.quantity}</td>
+                                    <td data-label="Unit Price" style={{ verticalAlign: 'middle' }}>₦{(item.unitPrice || item.price || 0).toLocaleString()}</td>
+                                    <td data-label="Total" style={{ textAlign: 'right', fontWeight: '700', verticalAlign: 'middle' }}>
                                       ₦{((item.unitPrice || item.price || 0) * item.quantity).toLocaleString()}
                                     </td>
                                   </tr>
