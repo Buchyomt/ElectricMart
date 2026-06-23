@@ -6,8 +6,8 @@ const session = require("express-session");
 const passport = require("passport");
 require("dotenv").config();
 
-// Use default system DNS resolvers
-
+// Force Google DNS to bypass local ISP SRV record blocking/bugs on Windows
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
