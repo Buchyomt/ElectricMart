@@ -49,4 +49,32 @@ router.post('/upload', protect, upload.single('image'), async (req, res) => {
   }
 });
 
+// @route   PUT /api/products/:id
+// @desc    Update product details
+router.put('/:id', protect, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Not authorized as an admin' });
+    }
+
+    const { name, price, brand, category, spec } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    if (name) product.name = name;
+    if (price !== undefined) product.price = price;
+    if (brand) product.brand = brand;
+    if (category) product.category = category;
+    if (spec) product.spec = spec;
+
+    const updatedProduct = await product.save();
+    res.json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

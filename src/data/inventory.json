@@ -27,7 +27,7 @@
   },
   {
     "id": 3,
-    "name": "AKT 40W LED Panel Light",
+    "name": "50Watts Akt Floodlight",
     "brand": "AKT",
     "price": 17000,
     "rating": 4.7,
@@ -40,7 +40,7 @@
   },
   {
     "id": 4,
-    "name": "AVA 16-Inch Wall Fan",
+    "name": "18 inches AVA Wall Fan",
     "brand": "AVA",
     "price": 28500,
     "rating": 4.5,
@@ -120,7 +120,7 @@
     "id": 10,
     "name": "Electric Kettle (Stainless Steel)",
     "brand": "Generic",
-    "price": 29000,
+    "price": 9000,
     "rating": 4.5,
     "reviews": 310,
     "image": "Electric Kettle .jpeg",
@@ -157,7 +157,7 @@
   },
   {
     "id": 13,
-    "name": "Hanging Pendant Light",
+    "name": "Track Light",
     "brand": "Generic",
     "price": 23000,
     "rating": 4.7,
@@ -183,7 +183,7 @@
   },
   {
     "id": 15,
-    "name": "High-Voltage Lead Battery",
+    "name": "12Volts 7amps",
     "brand": "Generic",
     "price": 18000,
     "rating": 4.5,
@@ -274,7 +274,7 @@
   },
   {
     "id": 22,
-    "name": "Sandwich Maker (2-Slice)",
+    "name": "Sandwich Maker (4-slice)",
     "brand": "Generic",
     "price": 25000,
     "rating": 4.5,
@@ -339,7 +339,7 @@
   },
   {
     "id": 27,
-    "name": "AKT 18W LED Ceiling Light",
+    "name": "30Watts AKT Surface Light",
     "brand": "AKT",
     "price": 7000,
     "rating": 4.6,
@@ -365,7 +365,7 @@
   },
   {
     "id": 29,
-    "name": "Industrial Motor Control Box",
+    "name": "Float Switch",
     "brand": "Generic",
     "price": 6000,
     "rating": 4.8,
@@ -456,9 +456,9 @@
   },
   {
     "id": 36,
-    "name": "Digital Personal Weight Checker",
+    "name": "Electric Cooker",
     "brand": "Generic",
-    "price": 30500,
+    "price": 29000,
     "rating": 4.6,
     "reviews": 41,
     "image": "Weight Checker.jpeg",
@@ -469,7 +469,7 @@
   },
   {
     "id": 37,
-    "name": "AKT 50W LED Flood Light",
+    "name": "100Watts AKT Floodlight",
     "brand": "AKT",
     "price": 27000,
     "rating": 4.7,
@@ -495,7 +495,7 @@
   },
   {
     "id": 39,
-    "name": "Bonatone Premium Dry Iron",
+    "name": "Binatone Steam Iron",
     "brand": "Bonatone",
     "price": 20000,
     "rating": 4.6,
@@ -521,7 +521,7 @@
   },
   {
     "id": 41,
-    "name": "Century 16-Inch Standing Fan",
+    "name": "18Inches century Rechargeable Mist Fan with double battery",
     "brand": "Century",
     "price": 170000,
     "rating": 4.7,
@@ -534,7 +534,7 @@
   },
   {
     "id": 42,
-    "name": "12V 100Ah LED Lead Acid Battery",
+    "name": "12Volts 4.amps battery",
     "brand": "Generic",
     "price": 16000,
     "rating": 4.4,
@@ -547,7 +547,7 @@
   },
   {
     "id": 43,
-    "name": "Mega Flash 2.0L Electric Kettle",
+    "name": "Mega Flash 5.0L Electric Kettle",
     "brand": "Mega Flash",
     "price": 29000,
     "rating": 4.6,
@@ -560,7 +560,7 @@
   },
   {
     "id": 44,
-    "name": "QASA Non-Stick Dry Iron",
+    "name": "Non Stick Enery saving Dry Iron",
     "brand": "QASA",
     "price": 16000,
     "rating": 4.7,
@@ -586,7 +586,7 @@
   },
   {
     "id": 46,
-    "name": "Generic 16-Inch Black Standing Fan",
+    "name": "18 inches OX Standing Fan",
     "brand": "Generic",
     "price": 25000,
     "rating": 4.3,
@@ -612,7 +612,7 @@
   },
   {
     "id": 48,
-    "name": "Universal Travel Adaptor (v2)",
+    "name": "2phase Multi socket",
     "brand": "Generic",
     "price": 2500,
     "rating": 4.6,
@@ -648,71 +648,6 @@
     "deliveryTime": "Delivers in 48hrs",
     "isBulkPricing": false,
     "category": "Lighting"
-  },
-  {
-    "id": 51,
-    "name": "FullSet socket & switches gold",
-    "brand": "G3.5 Gold",
-    "price": 18800,
-    "rating": 4.8,
-    "reviews": 12,
-    "image": "Gold Single Socket & Switch.jpeg",
-    "spec": "Gold Series Pack",
-    "deliveryTime": "In Stock",
-    "isBulkPricing": true,
-    "category": "Switches & Sockets"
-  },
-  {
-    "id": 52,
-    "name": "FullSet socket & switches black",
-    "brand": "KAK",
-    "price": 20000,
-    "rating": 4.9,
-    "reviews": 8,
-    "image": "Double-Socket .jpeg",
-    "spec": "Brushed Black Series",
-    "deliveryTime": "In Stock",
-    "isBulkPricing": true,
-    "category": "Switches & Sockets"
-  },
-  {
-    "id": 53,
-    "name": "FullSet socket & switches white",
-    "brand": "VWS",
-    "price": 21100,
-    "rating": 4.8,
-    "reviews": 15,
-    "image": "White Single Socket & Switch .jpeg",
-    "spec": "White Bakelite Series",
-    "deliveryTime": "In Stock",
-    "isBulkPricing": true,
-    "category": "Switches & Sockets"
-  },
-  {
-    "id": 54,
-    "name": "FullSet socket & switches silver",
-    "brand": "Cryspo England",
-    "price": 19000,
-    "rating": 4.9,
-    "reviews": 22,
-    "image": "Single Sockets .jpeg",
-    "spec": "Chrome Silver Series",
-    "deliveryTime": "In Stock",
-    "isBulkPricing": true,
-    "category": "Switches & Sockets"
-  },
-  {
-    "id": 55,
-    "name": "FullSet socket & switches milk",
-    "brand": "Cryspo England",
-    "price": 19500,
-    "rating": 4.8,
-    "reviews": 10,
-    "image": "Single Socket & Switch.jpeg",
-    "spec": "Gold-Trim Series",
-    "deliveryTime": "In Stock",
-    "isBulkPricing": true,
-    "category": "Switches & Sockets"
   },
   {
     "id": 56,
@@ -898,7 +833,7 @@
   },
   {
     "id": 70,
-    "name": "Orbit Standing Fan",
+    "name": "Orbit Fan",
     "brand": "Orbit",
     "price": 32000,
     "rating": 4.3,

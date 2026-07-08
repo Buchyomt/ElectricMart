@@ -41,6 +41,9 @@ const AdminDashboard = () => {
   const [notification, setNotification] = useState(null); // { message, type }
   const [selectedOrderIds, setSelectedOrderIds] = useState([]);
   
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productEditForm, setProductEditForm] = useState({ name: '', price: '', brand: '', category: '', spec: '' });
+  
   const [quotes, setQuotes] = useState([]);
   const [usersList, setUsersList] = useState([]);
   const [adminUser, setAdminUser] = useState(null);
@@ -132,6 +135,33 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error('Update stock error', err);
       setNotification({ message: 'Error updating stock', type: 'error' });
+      setTimeout(() => setNotification(null), 3000);
+    }
+  };
+
+  const handleSaveProductEdit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/products/${selectedProduct._id}`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify(productEditForm)
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setAllProducts(allProducts.map(p => p._id === updated._id ? updated : p));
+        setNotification({ message: 'Product updated successfully!', type: 'success' });
+        setTimeout(() => setNotification(null), 3000);
+        setSelectedProduct(null);
+      } else {
+        throw new Error('Update failed');
+      }
+    } catch (err) {
+      console.error(err);
+      setNotification({ message: 'Error updating product', type: 'error' });
       setTimeout(() => setNotification(null), 3000);
     }
   };
@@ -520,10 +550,23 @@ const AdminDashboard = () => {
                     />
                   </td>
                   <td>
-                    <button className="btn-details" onClick={() => {
-                        const qty = document.getElementById(`master-stock-${product._id}`).value;
-                        handleUpdateStock(product._id, qty);
-                    }}>Update Stock</button>
+                    <div style={{display: 'flex', gap: '8px'}}>
+                      <button className="btn-details" onClick={() => {
+                          const qty = document.getElementById(`master-stock-${product._id}`).value;
+                          handleUpdateStock(product._id, qty);
+                      }}>Update Stock</button>
+                      
+                      <button className="btn-details" onClick={() => {
+                        setSelectedProduct(product);
+                        setProductEditForm({ 
+                          name: product.name, 
+                          price: product.price,
+                          brand: product.brand || '',
+                          category: product.category || '',
+                          spec: product.spec || ''
+                        });
+                      }}>Edit</button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -1059,6 +1102,74 @@ const AdminDashboard = () => {
                 <Printer size={18} /> Print Waybill Now
               </button>
             </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Product Edit Modal */}
+      {selectedProduct && createPortal(
+        <div className="admin-modal-overlay">
+          <div className="admin-modal" style={{maxWidth: '500px'}}>
+            <div className="modal-header">
+              <h3>Edit Product</h3>
+              <button className="close-modal" onClick={() => setSelectedProduct(null)}><X size={20} /></button>
+            </div>
+            
+            <form onSubmit={handleSaveProductEdit} className="modal-body" style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
+              <div className="form-group" style={{marginBottom: 0}}>
+                <label style={{fontSize: '0.9rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '8px'}}>Product Name</label>
+                <input 
+                  type="text" 
+                  value={productEditForm.name}
+                  onChange={(e) => setProductEditForm({...productEditForm, name: e.target.value})}
+                  required
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem'}}
+                />
+              </div>
+              <div className="form-group" style={{marginBottom: 0}}>
+                <label style={{fontSize: '0.9rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '8px'}}>Base Price (₦)</label>
+                <input 
+                  type="number" 
+                  value={productEditForm.price}
+                  onChange={(e) => setProductEditForm({...productEditForm, price: e.target.value})}
+                  required
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem'}}
+                />
+              </div>
+              <div className="form-group" style={{marginBottom: 0}}>
+                <label style={{fontSize: '0.9rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '8px'}}>Brand</label>
+                <input 
+                  type="text" 
+                  value={productEditForm.brand}
+                  onChange={(e) => setProductEditForm({...productEditForm, brand: e.target.value})}
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem'}}
+                />
+              </div>
+              <div className="form-group" style={{marginBottom: 0}}>
+                <label style={{fontSize: '0.9rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '8px'}}>Category</label>
+                <input 
+                  type="text" 
+                  value={productEditForm.category}
+                  onChange={(e) => setProductEditForm({...productEditForm, category: e.target.value})}
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem'}}
+                />
+              </div>
+              <div className="form-group" style={{marginBottom: 0}}>
+                <label style={{fontSize: '0.9rem', fontWeight: 600, color: '#475569', display: 'block', marginBottom: '8px'}}>Specifications (Info below name)</label>
+                <input 
+                  type="text" 
+                  value={productEditForm.spec}
+                  onChange={(e) => setProductEditForm({...productEditForm, spec: e.target.value})}
+                  style={{width: '100%', padding: '10px 12px', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '1rem'}}
+                />
+              </div>
+              
+              <div className="modal-footer" style={{marginTop: '20px', padding: 0, borderTop: 'none'}}>
+                <button type="button" className="btn btn-secondary" onClick={() => setSelectedProduct(null)}>Cancel</button>
+                <button type="submit" className="btn btn-primary">Save Changes</button>
+              </div>
+            </form>
           </div>
         </div>,
         document.body
