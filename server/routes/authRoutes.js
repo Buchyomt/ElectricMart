@@ -79,9 +79,15 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedPhone = phone.replace(/\s+/g, '').trim();
+
+    const existingUser = await User.findOne({ 
+      $or: [{ email: normalizedEmail }, { phone: normalizedPhone }] 
+    });
+    
     if (existingUser) {
-      const isEmailMatch = existingUser.email === email.toLowerCase();
+      const isEmailMatch = existingUser.email === normalizedEmail;
       const field = isEmailMatch ? 'Email' : 'Phone number';
       return res.status(400).json({ message: `${field} already registered` });
     }
@@ -89,14 +95,21 @@ router.post('/register', async (req, res) => {
     const otp = "123456"; // Hardcoded bypass because Render Free Tier blocks SMTP
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
-    const user = await User.create({ name, email, password, phone, otp, otpExpiry });
+    const user = await User.create({ 
+      name, 
+      email: normalizedEmail, 
+      password, 
+      phone: normalizedPhone, 
+      otp, 
+      otpExpiry 
+    });
     
     try {
-      await sendOTPEmail(email, otp, name);
-      console.log(`✅ Verification email sent to ${email}`);
+      await sendOTPEmail(normalizedEmail, otp, name);
+      console.log(`✅ Verification email sent to ${normalizedEmail}`);
     } catch (emailErr) {
       console.error('Failed to send verification email:', emailErr.message);
-      console.log(`[DEV] OTP Code for ${email}: ${otp}`);
+      console.log(`[DEV] OTP Code for ${normalizedEmail}: ${otp}`);
     }
 
     res.status(201).json({
@@ -227,8 +240,11 @@ router.post('/otp-login-verify', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { loginId, password } = req.body;
   try {
+    const normalizedLoginId = loginId.toLowerCase().trim();
+    const phoneLoginId = loginId.replace(/\s+/g, '').trim();
+
     const user = await User.findOne({ 
-      $or: [{ email: loginId }, { phone: loginId }] 
+      $or: [{ email: normalizedLoginId }, { phone: phoneLoginId }] 
     });
     if (!user || !user.password) {
       return res.status(401).json({ message: 'Invalid credentials' });

@@ -16,6 +16,7 @@ import {
   Truck,
   RotateCcw
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
 import './Auth.css';
 
@@ -29,13 +30,13 @@ const Auth = () => {
     resendOTP, 
     loginWithOTPRequest,
     verifyLoginOTP,
-    isAuthenticated, 
-    loading: authLoading 
+    isAuthenticated 
   } = useAuth();
 
   // Determine initial mode from URL
   const [isLogin, setIsLogin] = useState(location.pathname === '/login');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isOtpMode, setIsOtpMode] = useState(false);
   const [loginMethod, setLoginMethod] = useState('password'); // 'password' or 'otp'
   const [userId, setUserId] = useState(null);
@@ -46,6 +47,7 @@ const Auth = () => {
     email: '',
     phone: '',
     password: '',
+    confirmPassword: '',
     loginId: '', // Can be email or phone
     otp: ''
   });
@@ -83,12 +85,10 @@ const Auth = () => {
     try {
       if (isLogin) {
         if (loginMethod === 'otp') {
-          // OTP Login Request
           const res = await loginWithOTPRequest(formData.loginId);
           setUserId(res.userId);
           setIsOtpMode(true);
         } else {
-          // Standard Password Login
           const res = await login(formData.loginId, formData.password);
           if (res.status === 403 && res.data.userId) {
             setUserId(res.data.userId);
@@ -96,7 +96,11 @@ const Auth = () => {
           }
         }
       } else {
-        // Register Logic
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setLoading(false);
+          return;
+        }
         const res = await register(formData.name, formData.email, formData.password, formData.phone);
         setUserId(res.userId);
         setIsOtpMode(true);
@@ -149,6 +153,18 @@ const Auth = () => {
     window.location.href = `${import.meta.env.VITE_API_URL || ''}/api/auth/login_social`;
   };
 
+  // Animation variants
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    exit: { opacity: 0, y: -20 }
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, x: isLogin ? -20 : 20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
+  };
+
   return (
     <div className="auth-page-wrapper">
       {/* Breadcrumbs */}
@@ -160,7 +176,12 @@ const Auth = () => {
         </nav>
       </div>
 
-      <div className="auth-container">
+      <motion.div 
+        className="auth-container"
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+      >
         {/* Left Panel: Hero & Trust */}
         <div className="auth-left">
           <img 
@@ -215,171 +236,241 @@ const Auth = () => {
                   onClick={() => handleModeSwitch('login')}
                 >
                   Sign In
+                  {isLogin && <motion.div layoutId="tab-indicator" className="tab-indicator" />}
                 </button>
                 <button 
                   className={`auth-tab ${!isLogin ? 'active' : ''}`}
                   onClick={() => handleModeSwitch('register')}
                 >
                   Register
+                  {!isLogin && <motion.div layoutId="tab-indicator" className="tab-indicator" />}
                 </button>
               </div>
 
-              <h2>{isLogin ? 'Welcome Back' : 'Create Professional Account'}</h2>
-              <p className="auth-subtitle">
-                {isLogin 
-                  ? 'Access your orders, quotes, and saved projects.' 
-                  : 'Get started with Nigeria’s leading electrical marketplace.'}
-              </p>
+              <motion.div 
+                key={isLogin ? 'login' : 'register'}
+                variants={formVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <h2>{isLogin ? 'Welcome Back' : 'Create Professional Account'}</h2>
+                <p className="auth-subtitle">
+                  {isLogin 
+                    ? 'Access your orders, quotes, and saved projects.' 
+                    : 'Get started with Nigeria’s leading electrical marketplace.'}
+                </p>
 
-              {error && <div className="error-alert" style={{color: '#ef4444', background: '#fee2e2', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>{error}</div>}
+                {error && <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="error-alert">{error}</motion.div>}
 
-              <form className="auth-form" onSubmit={handleSubmit}>
-                {!isLogin && (
-                  <div className="form-group">
-                    <label>Full Name</label>
-                    <div className="input-with-icon">
-                      <User className="input-icon" size={20} />
-                      <input 
-                        type="text" 
-                        name="name"
-                        placeholder="John Doe" 
-                        value={formData.name}
-                        onChange={handleChange}
-                        required 
-                      />
-                    </div>
-                  </div>
-                )}
+                <form className="auth-form" onSubmit={handleSubmit}>
+                  <AnimatePresence mode='wait'>
+                    {!isLogin && (
+                      <motion.div 
+                        key="register-fields-top"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                      >
+                        <div className="floating-label-group">
+                          <User className="input-icon" size={20} />
+                          <input 
+                            type="text" 
+                            name="name"
+                            placeholder=" "
+                            value={formData.name}
+                            onChange={handleChange}
+                            required 
+                          />
+                          <label>Full Name</label>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
-                <div className="form-group">
-                  <label>{isLogin ? 'Email or Phone Number' : 'Email Address'}</label>
-                  <div className="input-with-icon">
+                  <div className="floating-label-group">
                     {isLogin ? <Globe className="input-icon" size={20} /> : <Mail className="input-icon" size={20} />}
                     <input 
                       type={isLogin ? "text" : "email"}
                       name={isLogin ? "loginId" : "email"}
-                      placeholder={isLogin ? "email@example.com or 080..." : "email@example.com"} 
+                      placeholder=" "
                       value={isLogin ? formData.loginId : formData.email}
                       onChange={handleChange}
                       required 
                     />
+                    <label>{isLogin ? 'Email or Phone Number' : 'Email Address'}</label>
                   </div>
+
+                  <AnimatePresence mode='wait'>
+                    {isLogin && (
+                      <motion.div className="login-method-toggle" initial={{opacity:0}} animate={{opacity:1}}>
+                        <button 
+                          type="button" 
+                          onClick={() => setLoginMethod(loginMethod === 'password' ? 'otp' : 'password')}
+                        >
+                          {loginMethod === 'password' ? 'Sign in with OTP code instead' : 'Sign in with password instead'}
+                        </button>
+                      </motion.div>
+                    )}
+
+                    {!isLogin && (
+                      <motion.div 
+                        key="register-fields-mid"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                      >
+                        <div className="floating-label-group">
+                          <Phone className="input-icon" size={20} />
+                          <input 
+                            type="tel" 
+                            name="phone"
+                            placeholder=" "
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required 
+                          />
+                          <label>Phone Number</label>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <AnimatePresence mode='wait'>
+                    {(isLogin && loginMethod === 'password' || !isLogin) && (
+                      <motion.div 
+                        key="password-field"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="floating-label-group password-group"
+                      >
+                        <Lock className="input-icon" size={20} />
+                        <input 
+                          type={showPassword ? "text" : "password"} 
+                          name="password"
+                          placeholder=" "
+                          value={formData.password}
+                          onChange={handleChange}
+                          required 
+                        />
+                        <label>Password</label>
+                        <button 
+                          type="button" 
+                          className="toggle-password"
+                          onClick={() => setShowPassword(!showPassword)}
+                          tabIndex="-1"
+                        >
+                          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      </motion.div>
+                    )}
+                    
+                    {!isLogin && (
+                      <motion.div 
+                        key="confirm-password-field"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="floating-label-group password-group"
+                      >
+                        <Lock className="input-icon" size={20} />
+                        <input 
+                          type={showConfirmPassword ? "text" : "password"} 
+                          name="confirmPassword"
+                          placeholder=" "
+                          value={formData.confirmPassword}
+                          onChange={handleChange}
+                          required 
+                        />
+                        <label>Confirm Password</label>
+                        <button 
+                          type="button" 
+                          className="toggle-password"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          tabIndex="-1"
+                        >
+                          {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {isLogin && loginMethod === 'password' && (
+                    <div className="form-options">
+                      <label className="checkbox-container">
+                        <input type="checkbox" defaultChecked />
+                        <span>Remember this device</span>
+                      </label>
+                      <Link to="/forgot-password" title="Coming soon" className="forgot-password">Forgot Password?</Link>
+                    </div>
+                  )}
+
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit" 
+                    className="btn-auth" 
+                    disabled={loading}
+                  >
+                    {loading ? 'Processing...' : (isLogin ? 'Secure Sign In' : 'Create Account')}
+                    {!loading && <ArrowRight size={20} />}
+                  </motion.button>
+                </form>
+
+                <div className="auth-divider">
+                  <span>OR CONTINUE WITH</span>
                 </div>
 
-                {isLogin && (
-                  <div className="login-method-toggle" style={{marginBottom: '1rem'}}>
-                    <button 
-                      type="button" 
-                      onClick={() => setLoginMethod(loginMethod === 'password' ? 'otp' : 'password')}
-                      style={{background: 'none', border: 'none', color: '#2563eb', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', padding: 0}}
-                    >
-                      {loginMethod === 'password' ? 'Sign in with OTP code instead' : 'Sign in with password instead'}
-                    </button>
-                  </div>
-                )}
+                <motion.button 
+                  whileHover={{ scale: 1.02, backgroundColor: "#f8fafc" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="btn-google" 
+                  onClick={handleGoogleLogin} 
+                  type="button"
+                >
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="google-icon" />
+                  Google Workspace
+                </motion.button>
+              </motion.div>
+            </div>
+          ) : (
+            /* OTP Verification UI */
+            <motion.div 
+              className="auth-form-content"
+              initial={{opacity: 0, scale: 0.95}}
+              animate={{opacity: 1, scale: 1}}
+            >
+              <h2>Verify Your Identity</h2>
+              <p className="auth-subtitle">We've sent a 6-digit verification code to your email. Enter it below to secure your account.</p>
 
-                {!isLogin && (
-                  <div className="form-group">
-                    <label>Phone Number</label>
-                    <div className="input-with-icon">
-                      <Phone className="input-icon" size={20} />
-                      <input 
-                        type="tel" 
-                        name="phone"
-                        placeholder="080 000 0000" 
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required 
-                      />
-                    </div>
-                  </div>
-                )}
+              {error && <motion.div initial={{opacity:0}} animate={{opacity:1}} className="error-alert">{error}</motion.div>}
+              {success && <motion.div initial={{opacity:0}} animate={{opacity:1}} className="success-alert">{success}</motion.div>}
 
-                {(isLogin && loginMethod === 'password' || !isLogin) && (
-                  <div className="form-group">
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem'}}>
-                      <label style={{marginBottom: 0}}>Password</label>
-                      {isLogin && <Link to="/forgot-password" title="Coming soon" className="forgot-password">Forgot Password?</Link>}
-                    </div>
-                    <div className="input-with-icon password-input">
-                      <Lock className="input-icon" size={20} />
-                      <input 
-                        type={showPassword ? "text" : "password"} 
-                        name="password"
-                        placeholder="••••••••" 
-                        value={formData.password}
-                        onChange={handleChange}
-                        required 
-                      />
-                      <button 
-                        type="button" 
-                        className="toggle-password"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                      </button>
-                    </div>
-                  </div>
-                )}
+              <form onSubmit={handleOtpSubmit}>
+                <div className="floating-label-group">
+                  <ShieldCheck className="input-icon" size={20} />
+                  <input 
+                    type="text" 
+                    name="otp"
+                    maxLength="6"
+                    placeholder=" "
+                    value={formData.otp}
+                    onChange={handleChange}
+                    required 
+                  />
+                  <label>Verification Code</label>
+                </div>
 
-                {isLogin && (
-                  <div className="form-options">
-                    <label className="checkbox-container">
-                      <input type="checkbox" defaultChecked />
-                      <span>Remember this device</span>
-                    </label>
-                  </div>
-                )}
-
-                <button 
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit" 
                   className="btn-auth" 
                   disabled={loading}
                 >
-                  {loading ? 'Processing...' : (isLogin ? 'Secure Sign In' : 'Create Account')}
-                  {!loading && <ArrowRight size={20} />}
-                </button>
-              </form>
-
-              <div className="auth-divider">
-                <span>OR CONTINUE WITH</span>
-              </div>
-
-              <button className="btn-google" onClick={handleGoogleLogin} type="button">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="google-icon" />
-                Google Workspace
-              </button>
-            </div>
-          ) : (
-            /* OTP Verification UI */
-            <div className="auth-form-content">
-              <h2>Verify Your Identity</h2>
-              <p className="auth-subtitle">We've sent a 6-digit verification code to your email. Enter it below to secure your account.</p>
-
-              {error && <div className="error-alert" style={{color: '#ef4444', background: '#fee2e2', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>{error}</div>}
-              {success && <div className="success-alert" style={{color: '#059669', background: '#ecfdf5', padding: '0.75rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem', fontWeight: '500'}}>{success}</div>}
-
-              <form onSubmit={handleOtpSubmit}>
-                <div className="form-group">
-                  <label>Verification Code</label>
-                  <div className="input-with-icon">
-                    <ShieldCheck className="input-icon" size={20} />
-                    <input 
-                      type="text" 
-                      name="otp"
-                      maxLength="6"
-                      placeholder="000000" 
-                      value={formData.otp}
-                      onChange={handleChange}
-                      required 
-                    />
-                  </div>
-                </div>
-
-                <button type="submit" className="btn-auth" disabled={loading}>
                   {loading ? 'Verifying...' : 'Complete Verification'}
                   <CheckCircle2 size={20} />
-                </button>
+                </motion.button>
 
                 <p className="auth-redirect" style={{textAlign: 'center', marginTop: '2rem', color: '#64748b'}}>
                   Didn't receive a code? <span 
@@ -389,10 +480,10 @@ const Auth = () => {
                   >Resend OTP</span>
                 </p>
               </form>
-            </div>
+            </motion.div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
