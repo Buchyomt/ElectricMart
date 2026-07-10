@@ -150,7 +150,9 @@ const Auth = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || ''}/api/auth/login_social`;
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = import.meta.env.VITE_API_URL || (isLocalhost ? 'http://localhost:5005' : '');
+    window.location.href = `${apiUrl}/api/auth/login_social`;
   };
 
   // Animation variants
