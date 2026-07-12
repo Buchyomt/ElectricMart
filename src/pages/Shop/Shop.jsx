@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { ChevronRight, Grid, List, SlidersHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import inventoryData from '../../data/inventory.json';
 import './Shop.css';
 
 const Shop = () => {
@@ -50,10 +49,7 @@ const Shop = () => {
         if (!response.ok) throw new Error('Server error');
         const data = await response.json();
         
-        // Merge backend data with any items in inventoryData that haven't been pushed to the DB yet
-        const dbNames = new Set(data.map(p => p.name));
-        const localOnlyItems = inventoryData.filter(p => !dbNames.has(p.name));
-        setProducts([...data, ...localOnlyItems]);
+        setProducts(data);
       } catch (err) {
         console.warn('Backend unavailable, using local data:', err.message);
         setProducts(inventoryData);
